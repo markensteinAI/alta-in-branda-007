@@ -88,7 +88,7 @@ async function build() {
 
 /* ---------- calendari .ics ---------- */
 const titleCase = s => s.toLowerCase().replace(/(^|[\s\-\/(.'’"])([a-zà-ù])/g, (m, p, c) => p + c.toUpperCase()).replace(/\s(Di|Del|Della|Dello|Dei|Degli|Sul|Sulla|Da|D)\s/g, m => m.toLowerCase());
-const tidy = s => { s = (s || '').replace(/\s+/g, ' ').trim().replace(/([A-Za-zÀ-ù]{4,})\.(?=\s|$)/g, '$1').replace(/[,\s]+$/, ''); return s.length > 3 && s === s.toUpperCase() && /[A-Z]/.test(s) ? titleCase(s) : s; };
+const tidy = s => { s = (s || '').replace(/\s+/g, ' ').trim().replace(/([A-Za-zÀ-ù]{4,})\.(?=\s|$)/g, '$1').replace(/[,\s]+$/, ''); const letters = s.replace(/[^A-Za-zÀ-ù]/g, ''), upper = s.replace(/[^A-ZÀ-Ý]/g, ''); return s.length > 3 && letters.length && upper.length / letters.length >= 0.6 ? titleCase(s) : s; };
 const short = n => n.replace(/\s+(Basic|Superbasic|Top|Elite|Open M)$/i, '');
 const icsText = s => String(s).replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\r?\n/g, '\\n');
 function fold(line) {
