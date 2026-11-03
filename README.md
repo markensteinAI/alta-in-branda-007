@@ -1,2 +1,26 @@
-# alta-in-branda-007
-Classifica, calendario e risultati di ALTA IN BRANDA007 e dell'IVL Lombardia 2026/27 (pagina non ufficiae, si aggiorna da sola)
+# ALTA IN BRANDA 007 · IVL 2026/27
+
+Pagina non ufficiale con classifica, calendario, risultati set per set, statistiche e palestre della squadra ALTA IN BRANDA 007 (BASIC misto, Girone D) e di tutta l'IVL Lombardia (MI+MB), stagione 2026/27.
+
+Sito: https://markensteinai.github.io/alta-in-branda-007/
+
+## Come si aggiorna
+
+Il workflow `.github/workflows/pages.yml` gira tre volte al giorno (e a ogni modifica del repository):
+
+1. `scripts/update-data.mjs` legge i dati pubblici di [ivl.usacli.it](https://ivl.usacli.it) (campionati, gironi, squadre, partite, classifiche ufficiali);
+2. riscrive `site/data.js` e i calendari `site/cal/<id squadra>.ics` solo se qualcosa è cambiato;
+3. pubblica la cartella `site/` su GitHub Pages.
+
+Se il sito della lega non risponde o restituisce dati sospetti, lo script si ferma senza toccare i file: la pagina resta all'ultima versione buona e il workflow risulta in errore.
+
+Per forzare un aggiornamento: scheda **Actions** → *Aggiorna dati e pubblica il sito* → **Run workflow**.
+
+## Calendari
+
+Ogni squadra ha un calendario in abbonamento, per esempio quello di ALTA IN BRANDA 007:
+`webcal://markensteinai.github.io/alta-in-branda-007/cal/599.ics`
+
+## Stagione successiva
+
+Cambiare le variabili `IVL_INIZIO`, `IVL_FINE` e `IVL_GIRONE` in testa allo script (o come variabili d'ambiente nel workflow).
