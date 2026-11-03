@@ -113,7 +113,7 @@ DTSTAMP:20261103T225633Z
 DTSTART;TZID=Europe/Rome:20270203T213000
 DTEND;TZID=Europe/Rome:20270203T233000
 SUMMARY:PM SPORT – OLIMPIA PB
-LOCATION:Palazzetto dello Sport\, VIA STELLA POLARE 11/a\, Mediglia
+LOCATION:Palazzetto dello Sport\, Via Stella Polare 11/A\, Mediglia
 DESCRIPTION:BASIC misto · Girone D · giornata 12 · in trasferta
 END:VEVENT
 BEGIN:VEVENT
@@ -131,7 +131,7 @@ DTSTAMP:20261103T225633Z
 DTSTART;TZID=Europe/Rome:20270217T211500
 DTEND;TZID=Europe/Rome:20270217T231500
 SUMMARY:GOCCE DI CICLONE – OLIMPIA PB
-LOCATION:Palestra Breda Piccola\, VIA LEONARDO DA VINCI snc\, Sesto San Gi
+LOCATION:Palestra Breda Piccola\, Via Leonardo da Vinci Snc\, Sesto San Gi
  ovanni
 DESCRIPTION:BASIC misto · Girone D · giornata 14 · in trasferta
 END:VEVENT

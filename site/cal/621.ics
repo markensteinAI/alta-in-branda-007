@@ -39,7 +39,7 @@ DTSTAMP:20261103T225633Z
 DTSTART;TZID=Europe/Rome:20261104T213000
 DTEND;TZID=Europe/Rome:20261104T233000
 SUMMARY:PM SPORT – PLESIOS
-LOCATION:Palazzetto dello Sport\, VIA STELLA POLARE 11/a\, Mediglia
+LOCATION:Palazzetto dello Sport\, Via Stella Polare 11/A\, Mediglia
 DESCRIPTION:BASIC misto · Girone D · giornata 2 · in trasferta
 END:VEVENT
 BEGIN:VEVENT
@@ -48,7 +48,7 @@ DTSTAMP:20261103T225633Z
 DTSTART;TZID=Europe/Rome:20261111T211500
 DTEND;TZID=Europe/Rome:20261111T231500
 SUMMARY:GOCCE DI CICLONE – PLESIOS
-LOCATION:Palestra Breda Piccola\, VIA LEONARDO DA VINCI snc\, Sesto San Gi
+LOCATION:Palestra Breda Piccola\, Via Leonardo da Vinci Snc\, Sesto San Gi
  ovanni
 DESCRIPTION:BASIC misto · Girone D · giornata 3 · in trasferta
 END:VEVENT
