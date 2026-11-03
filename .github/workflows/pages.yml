@@ -1,0 +1,71 @@
+name: Aggiorna dati e pubblica il sito
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    # orari in UTC: circa 07:20, 14:20 e 00:50 ora italiana (risultati della sera inseriti il giorno dopo)
+    - cron: '20 6 * * *'
+    - cron: '20 13 * * *'
+    - cron: '50 23 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  aggiorna-e-pubblica:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Scarica i dati da ivl.usacli.it
+        id: update
+        continue-on-error: true
+        run: node scripts/update-data.mjs
+
+      - name: Rigenera i calendari dai dati salvati (solo se l'aggiornamento non è riuscito)
+        if: steps.update.outcome != 'success'
+        run: node scripts/update-data.mjs --solo-calendari
+
+      - name: Salva nel repository i dati cambiati
+        if: steps.update.outcome == 'success'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add site/data.js site/cal
+          if git diff --cached --quiet; then
+            echo "Nessuna novità nei dati"
+          else
+            git commit -m "Aggiornamento dati IVL $(date -u +%Y-%m-%dT%H:%MZ)"
+            git push
+          fi
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - name: Pubblica su GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Segnala se l'aggiornamento dei dati non è riuscito
+        if: steps.update.outcome != 'success'
+        run: |
+          echo "::error::Aggiornamento dei dati non riuscito: il sito è stato pubblicato con i dati precedenti."
+          exit 1
