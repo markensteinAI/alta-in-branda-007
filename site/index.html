@@ -14,7 +14,7 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2034%2034%22%3E%3Ccircle%20cx%3D%2217%22%20cy%3D%2217%22%20r%3D%2215%22%20fill%3D%22%23F2B705%22%2F%3E%3Cpath%20d%3D%22M17%202c3%204%204%209%203%2015M2.5%2013c5-1%2010%200%2014.5%204M5%2027c3-5%207-8%2012-10M31.5%2013c-4%202-9%203-14.5%204M17%2017c2%205%206%209%2011%2010%22%20fill%3D%22none%22%20stroke%3D%22%231D4FA6%22%20stroke-width%3D%222%22%2F%3E%3C%2Fsvg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2048%2048%22%3E%3Cdefs%3E%3CclipPath%20id%3D%22vbclip%22%3E%3Ccircle%20cx%3D%2224%22%20cy%3D%2224%22%20r%3D%2220.6%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Ccircle%20cx%3D%2224%22%20cy%3D%2224%22%20r%3D%2221%22%20fill%3D%22%23F7C531%22%2F%3E%3Cg%20clip-path%3D%22url%28%23vbclip%29%22%20fill%3D%22none%22%20stroke%3D%22%23123A80%22%20stroke-width%3D%222.4%22%20stroke-linecap%3D%22round%22%3E%3Cg%20transform%3D%22rotate%280%2024%2024%29%22%3E%3Cpath%20d%3D%22M24%2024C24%2014%2019%207.5%2011.5%205.2%22%2F%3E%3Cpath%20d%3D%22M33.5%2019C31.5%2011%2027%206%2021%203.6%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22rotate%28120%2024%2024%29%22%3E%3Cpath%20d%3D%22M24%2024C24%2014%2019%207.5%2011.5%205.2%22%2F%3E%3Cpath%20d%3D%22M33.5%2019C31.5%2011%2027%206%2021%203.6%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22rotate%28240%2024%2024%29%22%3E%3Cpath%20d%3D%22M24%2024C24%2014%2019%207.5%2011.5%205.2%22%2F%3E%3Cpath%20d%3D%22M33.5%2019C31.5%2011%2027%206%2021%203.6%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Ccircle%20cx%3D%2224%22%20cy%3D%2224%22%20r%3D%2221%22%20fill%3D%22none%22%20stroke%3D%22%23123A80%22%20stroke-width%3D%222.4%22%2F%3E%3C%2Fsvg%3E">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="manifest" href="manifest.webmanifest">
 <style>:root{color-scheme:light}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
@@ -125,11 +125,6 @@ main{padding-block:18px 40px;display:flex;flex-direction:column;gap:18px}
 
 /* hero (mia squadra) */
 .hero{position:relative;overflow:hidden;background:var(--court);color:var(--court-ink);border-radius:18px;padding:18px 18px 16px;isolation:isolate}
-.hero::before{content:"";position:absolute;inset:-1px;z-index:-1;pointer-events:none;
-  background:
-   linear-gradient(90deg,transparent calc(50% - 1px),var(--court-line) calc(50% - 1px),var(--court-line) calc(50% + 1px),transparent calc(50% + 1px)),
-   linear-gradient(90deg,transparent calc(33.3% - 1px),var(--court-line) calc(33.3% - 1px),var(--court-line) 33.3%,transparent 33.3%),
-   linear-gradient(90deg,transparent 66.7%,var(--court-line) 66.7%,var(--court-line) calc(66.7% + 1px),transparent calc(66.7% + 1px));}
 .hero-top{display:flex;justify-content:space-between;gap:10px;align-items:center}
 .hero .eyebrow{color:rgba(255,255,255,.75)}
 .link-btn{font-size:13px;font-weight:600;color:inherit;text-decoration:underline;text-underline-offset:3px;opacity:.9}
@@ -342,7 +337,7 @@ svg.map .home{fill:none;stroke:var(--ball);stroke-width:3}
 <header class="top">
   <div class="wrap top-in">
     <div class="brand">
-      <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><circle cx="17" cy="17" r="15" fill="#F2B705"/><path d="M17 2c3 4 4 9 3 15M2.5 13c5-1 10 0 14.5 4M5 27c3-5 7-8 12-10M31.5 13c-4 2-9 3-14.5 4M17 17c2 5 6 9 11 10" fill="none" stroke="#1D4FA6" stroke-width="2"/></svg>
+      <svg width="34" height="34" viewBox="0 0 48 48" aria-hidden="true"><defs><clipPath id="vbclip"><circle cx="24" cy="24" r="20.6"/></clipPath></defs><circle cx="24" cy="24" r="21" fill="#F7C531"/><g clip-path="url(#vbclip)" fill="none" stroke="#123A80" stroke-width="2.4" stroke-linecap="round"><g transform="rotate(0 24 24)"><path d="M24 24C24 14 19 7.5 11.5 5.2"/><path d="M33.5 19C31.5 11 27 6 21 3.6"/></g><g transform="rotate(120 24 24)"><path d="M24 24C24 14 19 7.5 11.5 5.2"/><path d="M33.5 19C31.5 11 27 6 21 3.6"/></g><g transform="rotate(240 24 24)"><path d="M24 24C24 14 19 7.5 11.5 5.2"/><path d="M33.5 19C31.5 11 27 6 21 3.6"/></g></g><circle cx="24" cy="24" r="21" fill="none" stroke="#123A80" stroke-width="2.4"/></svg>
       <div class="brand-txt">
         <span class="eyebrow">IVL Lombardia · 2026/27</span>
         <span class="ctx" id="ctxLabel">BASIC misto · Girone D</span>
