@@ -90,7 +90,7 @@ async function build() {
 const titleCase = s => s.toLowerCase().replace(/(^|[\s\-\/(.'’"])([a-zà-ù])/g, (m, p, c) => p + c.toUpperCase()).replace(/\s(Di|Del|Della|Dello|Dei|Degli|Sul|Sulla|Da|D)\s/g, m => m.toLowerCase());
 const tidy = s => { s = (s || '').replace(/\s+/g, ' ').trim().replace(/([A-Za-zÀ-ù]{4,})\.(?=\s|$)/g, '$1').replace(/[,\s]+$/, ''); const letters = s.replace(/[^A-Za-zÀ-ù]/g, ''), upper = s.replace(/[^A-ZÀ-Ý]/g, ''); return s.length > 3 && letters.length && upper.length / letters.length >= 0.6 ? titleCase(s) : s; };
 const short = n => n.replace(/\s+(Basic|Superbasic|Top|Elite|Open M)$/i, '');
-const icsText = s => String(s).replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\r?\n/g, '\\n');
+const icsText = s => String(s).replace(/[\u0000-\u0009\u000B\u000C\u000E-\u001F\u007F]/g, ' ').replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\r\n|\r|\n/g, '\\n');
 function fold(line) {
   const b = Buffer.from(line, 'utf8');
   if (b.length <= 74) return line;
@@ -169,7 +169,7 @@ if (process.argv.includes('--solo-calendari')) {
   const { gen: prevGen, ...prevPayload } = prev || {};
   const same = !!prev && JSON.stringify(prevPayload) === JSON.stringify(payload);
   const data = { gen: same ? prevGen : new Date().toISOString().replace(/\.\d+Z$/, 'Z'), ...payload };
-  await writeFile(new URL('data.js', OUT), '/* Generato da scripts/update-data.mjs, non modificare a mano */\nwindow.IVL = ' + JSON.stringify(data) + ';\n');
+  await writeFile(new URL('data.js', OUT), '/* Generato da scripts/update-data.mjs, non modificare a mano */\nwindow.IVL = ' + JSON.stringify(data).replace(/</g, '\\u003c').replace(/\u2028/g, '\\u2028').replace(/\u2029/g, '\\u2029') + ';\n');
   await writeCalendars(data);
   await writeFile(new URL('stato.js', OUT), `window.IVL_CHECK = ${JSON.stringify(new Date().toISOString().replace(/\.\d+Z$/, 'Z'))};\n`);
   console.log(`${same ? 'Nessuna novità' : 'Dati aggiornati'}: ${D.camp.length} campionati, ${D.gir.length} gironi, ${Object.keys(D.teams).length} squadre, ${nMatches} partite, ${Object.keys(D.pal).length} palestre.`);
