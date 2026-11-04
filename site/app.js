@@ -601,7 +601,7 @@ ${HOSTED ? `<section class="map-wrap real"><div id="vmap" class="vmap" role="reg
   return h;
 }
 
-/* ---------- mappa vera (solo sito pubblicato: Leaflet in locale + mappe CARTO/OpenStreetMap) ---------- */
+/* ---------- mappa vera (solo sito pubblicato: Leaflet in locale + riquadri OpenStreetMap) ---------- */
 let LEAF = null, MAP = null, VLIST = [], MARK = {};
 function loadLeaflet() {
   if (window.L) return Promise.resolve(window.L);
@@ -647,9 +647,9 @@ async function initRealMap() {
   el.innerHTML = '';
   MARK = {};
   MAP = L.map(el, { scrollWheelZoom: false, tapTolerance: 20 });
-  L.tileLayer(`https://{s}.basemaps.cartocdn.com/${isDark() ? 'dark_all' : 'rastertiles/voyager'}/{z}/{x}/{y}{r}.png`, {
-    subdomains: 'abcd', maxZoom: 19,
-    attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> © <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>'
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19, className: 'osm-tiles',
+    attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors'
   }).addTo(MAP);
   const home = myHome(), gset = new Set(GIR[SEL].matches.map(m => m.pal)), pts = [];
   let homeMk = null;

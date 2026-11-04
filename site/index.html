@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.basemaps.cartocdn.com; font-src 'self'; connect-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://tile.openstreetmap.org; font-src 'self'; connect-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'; worker-src 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#0F2A5E">
@@ -319,6 +319,8 @@ svg.chart .hb.on{fill:var(--accent)}
 .map-wrap{position:relative;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--surface-2)}
 svg.map{display:block;width:100%;height:auto}
 .map-wrap.real{position:relative;z-index:0;isolation:isolate}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .osm-tiles{filter:invert(1) hue-rotate(180deg) brightness(.92) contrast(.88) saturate(.7)}}
+:root[data-theme="dark"] .osm-tiles{filter:invert(1) hue-rotate(180deg) brightness(.92) contrast(.88) saturate(.7)}
 .vmap{height:min(62vh,460px);width:100%;background:var(--surface-2)}
 .map-wrap .leaflet-container{font-family:var(--f-body)}
 .map-wrap .leaflet-popup-content-wrapper,.map-wrap .leaflet-popup-tip{background:var(--surface);color:var(--ink);box-shadow:0 4px 18px rgba(0,0,0,.25)}
