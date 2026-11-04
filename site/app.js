@@ -113,6 +113,7 @@ CAMPL.forEach(c => c.gir.sort((a, b) => a.name.localeCompare(b.name)));
 
 const gShort = g => g.name === 'Girone unico' ? '' : g.name.replace('Girone ', 'Gir. ');
 const ctxName = g => CAMP[g.cid].name + (g.name === 'Girone unico' ? '' : ' · ' + g.name);
+const ctxShort = g => CAMP[g.cid].short + (g.name === 'Girone unico' ? '' : ' · ' + g.name.replace('Girone ', 'Gir. '));
 const winner = m => !m.res ? null : m.res.sh > m.res.sa ? m.h : m.res.sa > m.res.sh ? m.a : null;
 const involves = (m, t) => m.h === t || m.a === t;
 function pts(m) {
@@ -702,8 +703,10 @@ ${c.gir.map(g => { const o = offOf(g)[0]; const pl = g.matches.filter(m => m.res
 /* ---------- schede (sheet) ---------- */
 const sheet = $('#sheet'), sheetBody = $('#sheetBody');
 let lastFocus = null;
+let sheetHist = false;
 function openSheet(html, label) {
-  lastFocus = document.activeElement;
+  if (sheet.hidden) lastFocus = document.activeElement;
+  if (HOSTED && !sheetHist) { try { history.pushState({ ivlSheet: true }, ''); sheetHist = true; } catch (e) {} }
   sheetBody.innerHTML = html;
   sheet.setAttribute('aria-label', label || 'Dettaglio');
   sheet.hidden = false;
@@ -711,10 +714,29 @@ function openSheet(html, label) {
   $('#sheetPanel').scrollTop = 0;
   setTimeout(() => $('.sheet-x', sheet).focus(), 30);
 }
-function closeSheet() {
-  sheet.hidden = true;
-  document.body.style.overflow = '';
-  if (lastFocus && lastFocus.focus) lastFocus.focus();
+/* mode: nessuno = chiusura normale (toglie anche il passo aggiunto alla cronologia);
+   'pop' = chiusa dal tasto Indietro; 'nav' = si sta per cambiare sezione (il passo verrà sostituito) */
+function closeSheet(mode) {
+  const had = sheetHist;
+  sheetHist = false;
+  if (!sheet.hidden) {
+    sheet.hidden = true;
+    document.body.style.overflow = '';
+    if (!mode && lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  if (had && !mode) { try { history.back(); } catch (e) {} }
+  return had;
+}
+function navTo(route, replaced) {
+  if (replaced) location.replace('#' + route); else location.hash = route;
+}
+function goHome() {
+  SEL = TEAM[MY].gid; store.set('gir', SEL);
+  const replaced = closeSheet('nav');
+  if (location.hash && location.hash !== '#squadra') { navTo('squadra', replaced); return; }
+  if (replaced) { try { history.back(); } catch (e) {} }
+  render(false);
+  window.scrollTo({ top: 0, behavior: smooth() });
 }
 function openMatch(id) {
   const m = MATCH[id]; if (!m) return;
@@ -817,7 +839,9 @@ const VIEWS = { squadra: viewTeam, classifica: viewTable, partite: viewMatches, 
 let ROUTE = null;
 function header() {
   const g = GIR[SEL];
-  $('#ctxLabel').textContent = ctxName(g);
+  $('#ctxLabel').textContent = ctxShort(g);
+  $('#ctxBtn').setAttribute('aria-label', 'Girone mostrato: ' + ctxName(g) + '. Cambia campionato o girone');
+  $('#brandTeam').textContent = TEAM[MY].short;
 }
 function footer() {
   const age = Math.floor((NOW - GEN) / DAY);
@@ -839,7 +863,11 @@ function render(fromRoute) {
     ? (age >= 2 ? `<p class="note">L’aggiornamento automatico è fermo da ${age} giorni: risultati e classifiche recenti potrebbero mancare.</p>` : '')
     : (age >= 7 ? `<p class="note">Questi dati sono di ${age} giorni fa: risultati e classifiche recenti potrebbero mancare.</p>` : '');
   if (MAP && !(route === 'palestre' && HOSTED)) { try { MAP.remove(); } catch (e) {} MAP = null; }
-  $('#app').innerHTML = stale + VIEWS[route]();
+  const myG = TEAM[MY].gid;
+  const banner = route !== 'squadra' && route !== 'lega' && SEL !== myG
+    ? `<div class="ctx-banner" role="status"><span>Stai guardando <b>${esc(ctxName(GIR[SEL]))}</b></span><button type="button" data-act="my-gir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>Torna al girone di ${esc(TEAM[MY].short)}</button></div>`
+    : '';
+  $('#app').innerHTML = stale + banner + VIEWS[route]();
   if (route === 'palestre' && HOSTED) initRealMap();
   if (fromRoute && changed) {
     window.scrollTo(0, 0);
@@ -852,16 +880,14 @@ function render(fromRoute) {
 }
 function setGir(id, go) {
   SEL = +id; store.set('gir', SEL);
+  if (go && location.hash !== '#' + go) { navTo(go, closeSheet('nav')); return; }
   closeSheet();
-  if (go && location.hash !== '#' + go) { location.hash = go; return; }
   render(false);
   window.scrollTo(0, 0);
 }
 function setMy(id) {
   MY = +id; store.set('team', MY);
-  SEL = TEAM[MY].gid; store.set('gir', SEL);
-  closeSheet();
-  if (location.hash && location.hash !== '#squadra') location.hash = 'squadra'; else { render(false); window.scrollTo(0, 0); }
+  goHome();
 }
 
 document.addEventListener('click', e => {
@@ -869,6 +895,8 @@ document.addEventListener('click', e => {
   if (!el) return;
   if (el.hasAttribute('data-close')) { closeSheet(); return; }
   const act = el.dataset.act;
+  if (act === 'home') { e.preventDefault(); return goHome(); }
+  if (act === 'my-gir') { SEL = TEAM[MY].gid; store.set('gir', SEL); render(false); window.scrollTo({ top: 0, behavior: smooth() }); return; }
   if (act === 'pick-gir') return openGirPicker();
   if (act === 'pick-team') return openTeamPicker();
   if (act === 'set-my') return setMy(el.dataset.id);
@@ -900,8 +928,13 @@ document.addEventListener('change', e => {
   if (e.target.id === 'teamFilter') { mTeam = +e.target.value; render(false); }
 });
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && !sheet.hidden) closeSheet(); });
+$$('#tabs .tab').forEach(a => a.addEventListener('click', e => {
+  if (a.dataset.act === 'home') return;
+  if (location.hash === '#' + a.dataset.r && sheet.hidden) { e.preventDefault(); window.scrollTo({ top: 0, behavior: smooth() }); }
+}));
+window.addEventListener('popstate', () => { if (!sheet.hidden && sheetHist) closeSheet('pop'); });
 $('#ctxBtn').addEventListener('click', openGirPicker);
-window.addEventListener('hashchange', () => { if (!sheet.hidden) closeSheet(); render(true); });
+window.addEventListener('hashchange', () => { if (!sheet.hidden) closeSheet('pop'); render(true); });
 try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { if (ROUTE === 'palestre' && HOSTED) initRealMap(); }); } catch (e) {}
 
 footer();
