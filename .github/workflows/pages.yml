@@ -4,11 +4,15 @@ on:
   push:
     branches: [main]
   schedule:
-    # orari in UTC: circa 07:20, 14:20 e 00:50 ora italiana (risultati della sera inseriti il giorno dopo)
-    - cron: '20 6 * * *'
-    - cron: '20 13 * * *'
-    - cron: '50 23 * * *'
+    # ogni 4 ore (orari UTC). GitHub può far partire i lavori programmati anche con ore di ritardo:
+    # più passaggi al giorno tengono la pagina aggiornata anche quando succede.
+    - cron: '17 */4 * * *'
   workflow_dispatch:
+    inputs:
+      test_notifica:
+        description: 'Prova della mail di errore: aggiorna e pubblica normalmente, poi chiude il lavoro come fallito'
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -37,7 +41,9 @@ jobs:
       - name: Scarica i dati da ivl.usacli.it
         id: update
         continue-on-error: true
-        run: node scripts/update-data.mjs
+        run: |
+          set -o pipefail
+          node scripts/update-data.mjs | tee -a "$GITHUB_STEP_SUMMARY"
 
       - name: Rigenera i calendari dai dati salvati (solo se l'aggiornamento non è riuscito)
         if: steps.update.outcome != 'success'
@@ -49,10 +55,18 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add site/data.js site/cal
+          # se il repository non cambia da più di 25 giorni (fuori stagione), salva un segnale di vita:
+          # GitHub sospende i lavori programmati dopo 60 giorni senza attività
+          last=$(git log -1 --format=%ct)
+          if [ $(( $(date +%s) - last )) -gt $(( 25 * 86400 )) ]; then
+            date -u +%Y-%m-%dT%H:%MZ > .github/ultimo-segnale-di-vita.txt
+            git add .github/ultimo-segnale-di-vita.txt
+          fi
           if git diff --cached --quiet; then
             echo "Nessuna novità nei dati"
           else
             git commit -m "Aggiornamento dati IVL $(date -u +%Y-%m-%dT%H:%MZ)"
+            git pull --rebase origin main
             git push
           fi
 
@@ -69,5 +83,11 @@ jobs:
       - name: Segnala se l'aggiornamento dei dati non è riuscito
         if: steps.update.outcome != 'success'
         run: |
-          echo "::error::Aggiornamento dei dati non riuscito: il sito è stato pubblicato con i dati precedenti."
+          echo "::error::Aggiornamento dei dati non riuscito: il sito è stato pubblicato con i dati precedenti. Apri questo lavoro e guarda il passo 'Scarica i dati da ivl.usacli.it' per il motivo."
+          exit 1
+
+      - name: Prova della mail di errore
+        if: inputs.test_notifica
+        run: |
+          echo "::error::Prova richiesta a mano: se ricevi questa mail, gli avvisi di errore funzionano. Il sito è stato aggiornato e pubblicato normalmente."
           exit 1
