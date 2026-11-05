@@ -32,6 +32,8 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
+          # sempre l'ultima versione di main: i lavori partono in fila e quello prima può aver già salvato dati nuovi
+          ref: main
           persist-credentials: true
 
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
@@ -66,7 +68,8 @@ jobs:
             echo "Nessuna novità nei dati"
           else
             git commit -m "Aggiornamento dati IVL $(date -u +%Y-%m-%dT%H:%MZ)"
-            git pull --rebase origin main
+            # in caso di conflitto sui file dei dati vale la versione appena scaricata
+            git pull --rebase -X theirs origin main
             git push
           fi
 
