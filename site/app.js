@@ -867,7 +867,8 @@ function render(fromRoute) {
   const banner = route !== 'squadra' && route !== 'lega' && SEL !== myG
     ? `<div class="ctx-banner" role="status"><span>Stai guardando <b>${esc(ctxName(GIR[SEL]))}</b></span><button type="button" data-act="my-gir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>Torna al girone di ${esc(TEAM[MY].short)}</button></div>`
     : '';
-  $('#app').innerHTML = stale + banner + VIEWS[route]();
+  const copyNote = HOSTED ? '' : `<p class="note">Questa è una copia privata, ferma al ${esc(fFull.format(new Date(IVL.gen)))}, e non si aggiorna. La versione che si aggiorna da sola, aperta alla squadra, è <a href="https://markensteinai.github.io/alta-in-branda-007/" target="_blank" rel="noopener">markensteinai.github.io/alta-in-branda-007</a>.</p>`;
+  $('#app').innerHTML = copyNote + (HOSTED ? stale : '') + banner + VIEWS[route]();
   if (route === 'palestre' && HOSTED) initRealMap();
   if (fromRoute && changed) {
     window.scrollTo(0, 0);
