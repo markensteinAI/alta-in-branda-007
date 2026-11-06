@@ -972,9 +972,19 @@ ${m ? `<p class="small muted sf-when">${esc(cap(fDL.format(m.date)))} · ore ${f
   const ins = insights(g, a, b, m, S, X, sc);
   if (ins.length) h += `<div class="card"><div class="card-h"><h3>Da tenere d’occhio</h3></div><ul class="ins">${ins.map(s => `<li><span>${s}</span></li>`).join('')}</ul>${Math.min(sa.g, sb.g) < 3 ? '<p class="legend">Poche partite giocate finora: questi numeri cambiano in fretta.</p>' : ''}</div>`;
   if (sc && sc.length) {
-    h += `<div class="card"><div class="card-h"><h3>Cosa c’è in palio</h3><span class="eyebrow">classifica dopo la sfida</span></div><div class="tscroll"><table class="std sf-sc"><thead><tr><th class="l">Risultato</th><th class="l">${nmb(m.h)}</th><th class="l">${nmb(m.a)}</th></tr></thead><tbody>
-${sc.map(r => `<tr${r.sh > r.sa ? '' : ' class="alt"'}><td class="l"><b>${r.sh}–${r.sa}</b></td><td class="l${m.h === MY ? ' pts' : ''}">${r.h.pos}° · ${r.h.pts} pt</td><td class="l${m.a === MY ? ' pts' : ''}">${r.a.pos}° · ${r.a.pts} pt</td></tr>`).join('')}
-</tbody></table></div><p class="legend">Risultato visto dalla squadra di casa. Posizioni stimate con questa sola partita, senza le altre della giornata; a parità di punti, vittorie e quoziente set decide la differenza punti, che qui resta quella di oggi.</p></div>`;
+    // righe dal punto di vista delle due squadre come sono a schermo (sinistra = A), divise per chi vince, punteggio scritto dalla parte di chi vince
+    const rowsSc = sc.map(r => {
+      const aH = m.h === a, as = aH ? r.sh : r.sa, bs = aH ? r.sa : r.sh;
+      return { as, bs, ra: aH ? r.h : r.a, rb: aH ? r.a : r.h };
+    });
+    const cell = (o, t) => `<td class="l${t === MY ? ' pts' : ''}">${o.pos}° · ${o.pts} pt</td>`;
+    const group = (cls, title, list, sc_) => list.length ? `<tr class="grp ${cls}"><th colspan="3" class="l">${title}</th></tr>${list.map(r => `<tr class="${cls}"><td class="l"><b>${sc_(r)}</b></td>${cell(r.ra, a)}${cell(r.rb, b)}</tr>`).join('')}` : '';
+    const winsA = rowsSc.filter(r => r.as > r.bs).sort((x, y) => (y.as - y.bs) - (x.as - x.bs));
+    const winsB = rowsSc.filter(r => r.bs > r.as).sort((x, y) => (y.bs - y.as) - (x.bs - x.as));
+    const even = rowsSc.filter(r => r.as === r.bs);
+    h += `<div class="card"><div class="card-h"><h3>Cosa c’è in palio</h3><span class="eyebrow">classifica dopo la sfida</span></div><div class="tscroll"><table class="std sf-sc"><thead><tr><th class="l">Set</th><th class="l"><i class="sw"></i>${nmb(a)}</th><th class="l"><i class="sw b"></i>${nmb(b)}</th></tr></thead><tbody>
+${group('wa', `<i class="sw"></i>Se vince ${nmb(a)}`, winsA, r => r.as + '–' + r.bs)}${group('wb', `<i class="sw b"></i>Se vince ${nmb(b)}`, winsB, r => r.bs + '–' + r.as)}${group('', 'Se finisce in parità', even, r => r.as + '–' + r.bs)}
+</tbody></table></div><p class="legend">Set vinti da chi vince e da chi perde. Posizioni stimate con questa sola partita, senza le altre della giornata; a parità di punti, vittorie e quoziente set decide la differenza punti, che qui resta quella di oggi.</p></div>`;
   }
   const rows = [
     { l: 'Punti in classifica', a: oa.pts, b: ob.pts, hi: 1, bar: 1 },
