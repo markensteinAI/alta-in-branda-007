@@ -139,10 +139,10 @@ const OFF = {};
 const offOf = g => OFF[g.id] || (OFF[g.id] = official(g));
 const posOf = t => { const g = GIR[TEAM[t].gid]; return offOf(g).find(r => r.t === t); };
 const q = (a, b) => b ? a / b : (a ? 99 : 0);
-function compute(g, until) {
+function compute(g, until, maxG) {
   const S = {};
   g.tids.forEach(t => S[t] = { t, pts: 0, g: 0, v: 0, p: 0, sv: 0, sp: 0, pv: 0, pp: 0, res: [], setN: [0, 0, 0, 0, 0], setW: [0, 0, 0, 0, 0], hg: 0, hv: 0, ag: 0, av: 0, adv: 0, advW: 0, sets: 0 });
-  const ms = g.matches.filter(m => m.res && (!until || m.date <= until)).sort(byDate);
+  const ms = g.matches.filter(m => m.res && (!until || m.date <= until) && (!maxG || m.giornata <= maxG)).sort(byDate);
   for (const m of ms) {
     const H = S[m.h], A = S[m.a];
     if (!H || !A) continue;
@@ -167,8 +167,10 @@ function compute(g, until) {
 }
 const CMP = {};
 const compOf = g => CMP[g.id] || (CMP[g.id] = compute(g));
+/* Criteri a parità di punti ricavati dalle classifiche ufficiali del sito della lega (stagioni 2022/23–2026/27,
+   191 coppie a pari punti, nessuna eccezione): partite vinte, quoziente set, differenza punti. */
 function rankComputed(S) {
-  return Object.values(S).sort((a, b) => b.pts - a.pts || b.v - a.v || q(b.sv, b.sp) - q(a.sv, a.sp) || q(b.pv, b.pp) - q(a.pv, a.pp) || TEAM[a.t].short.localeCompare(TEAM[b.t].short));
+  return Object.values(S).sort((a, b) => b.pts - a.pts || b.v - a.v || q(b.sv, b.sp) - q(a.sv, a.sp) || (b.pv - b.pp) - (a.pv - a.pp) || q(b.pv, b.pp) - q(a.pv, a.pp) || TEAM[a.t].short.localeCompare(TEAM[b.t].short));
 }
 const HOMEV = {};
 function homeVenue(t) {
@@ -229,11 +231,26 @@ function formHTML(res, n = 5) {
   while (cells.length < n) cells.push('<span class="fchip e" aria-hidden="true"></span>');
   return `<span class="form" aria-label="Ultimi risultati">${cells.join('')}</span>`;
 }
+/* forma in piccolo (ultime 5) accanto a posizione e punti, dove compare una partita */
+function formMini(t) {
+  const T = TEAM[t]; if (!T || !T.gid) return '';
+  const s = compOf(GIR[T.gid])[t]; if (!s || !s.res.length) return '';
+  const last = s.res.slice(-5), word = { w: 'vinta', l: 'persa', d: 'incompleta' };
+  return `<span class="form mini" role="img" aria-label="Forma, ultime ${last.length}: ${last.map(x => word[x.r]).join(', ')}">${last.map(x => `<span class="fchip ${x.r}" aria-hidden="true">${x.r === 'w' ? 'V' : x.r === 'l' ? 'P' : '='}</span>`).join('')}</span>`;
+}
+function posTxt(t) {
+  const T = TEAM[t], o = T && T.gid ? posOf(t) : null;
+  return o ? `<span class="p" title="${o.pos}° in classifica con ${o.pts} punti">${o.pos}°</span>` : '';
+}
+function teamMeta(t) {
+  const T = TEAM[t], o = T && T.gid ? posOf(t) : null;
+  return `<span class="meta">${o ? `<span>${o.pos}° · ${o.pts} pt</span>` : ''}${formMini(t)}</span>`;
+}
 function matchRow(m, o = {}) {
   const me = MY, r = m.res, w = winner(m), p = PAL[m.pal];
   const row = (t, s) => {
     const cls = r ? (w === t ? 'won' : (w ? 'lost' : '')) : '';
-    return `<span class="m-row ${cls}">${t === me ? '<span class="me-dot" title="La tua squadra"></span>' : ''}<span class="nm">${esc(TEAM[t].short)}</span>${r ? `<span class="sc">${s}</span>` : ''}</span>`;
+    return `<span class="m-row ${cls}">${t === me ? '<span class="me-dot" title="La tua squadra"></span>' : ''}<span class="nm">${esc(TEAM[t].short)}</span>${r ? `<span class="sc">${s}</span>` : `<span class="m-meta">${posTxt(t)}${formMini(t)}</span>`}</span>`;
   };
   const tags = [];
   if (o.comp) tags.push(`<span class="tag">${esc(CAMP[m.g.cid].short)}${gShort(m.g) ? ' · ' + esc(gShort(m.g).replace('Gir. ', '')) : ''}</span>`);
@@ -293,6 +310,7 @@ function teamRow(m, nextId) {
     right = `<span class="tag res ${my > op ? 'win' : my < op ? 'loss' : 'warn'}">${my > op ? 'V' : my < op ? 'P' : '='} ${my}–${op}</span>`;
   } else if (m.date <= NOW) right = '<span class="tag warn">Da aggiornare</span>';
   else if (m.id === nextId) right = whenTag(m.date);
+  else right = `<span class="m-meta">${posTxt(opp)}${formMini(opp)}</span>`;
   return `<button type="button" class="trow${m.id === nextId ? ' nxt' : ''}" data-m="${m.id}">
 <span class="m-when">${shortWhen(m.date)}</span>
 <span class="tr-body"><span class="tr-opp">${esc(TEAM[opp].short)}</span><span class="tr-sub"><b class="ha${home ? ' home' : ''}">${home ? 'Casa' : 'Trasferta'}</b>${m.rinv ? ' · <b class="mv">spostata</b>' : ''} · G${m.giornata} · ${p ? esc(p.name) + ', ' + esc(p.com) : 'palestra da definire'}</span></span>
@@ -335,7 +353,7 @@ function viewTeam() {
 
   h += '<div class="grid">';
   if (next) {
-    const side = tt => { const o = posOf(tt); return `<button type="button" class="nx-team${tt === MY ? ' me' : ''}" data-t="${tt}"><span class="nm">${esc(TEAM[tt].short)}</span><span class="meta">${o.pos}° · ${o.pts} pt</span>${tt === next.h ? '<span class="tag home">Casa</span>' : ''}</button>`; };
+    const side = tt => `<button type="button" class="nx-team${tt === MY ? ' me' : ''}" data-t="${tt}"><span class="nm">${esc(TEAM[tt].short)}</span>${teamMeta(tt)}${tt === next.h ? '<span class="tag home">Casa</span>' : ''}</button>`;
     const p = PAL[next.pal];
     h += `<section class="card span-7 next-card" aria-label="Prossima partita">
   <div class="card-h"><span class="eyebrow">Prossima partita · giornata ${next.giornata}</span>${whenTag(next.date)}</div>
@@ -395,7 +413,7 @@ function viewTeam() {
   h += `<section class="card span-6" aria-label="Testa a testa"><div class="card-h"><h3>Testa a testa</h3><span class="eyebrow">andata · ritorno</span></div>
   <div class="h2h">${opps.map(o => { const mm = ms.filter(m => involves(m, o)).sort(byDate); return `<button type="button" class="h2h-row" data-t="${o}"><span class="pos">${posOf(o).pos}°</span><span class="nm">${esc(TEAM[o].short)}</span>${chip(mm[0])}${chip(mm[1])}</button>`; }).join('')}</div></section>`;
 
-  if (played >= 2) h += `<section class="card span-12" aria-label="Andamento in classifica"><div class="card-h"><h3>Andamento</h3><span class="eyebrow">posizione dopo ogni partita</span></div>${trendChart(g, ms.filter(m => m.res))}</section>`;
+  if (played >= 2) h += `<section class="card span-12" aria-label="Andamento in classifica"><div class="card-h"><h3>Andamento</h3><span class="eyebrow">posizione dopo ogni giornata</span></div>${trendChart(g, ms.filter(m => m.res))}</section>`;
 
   const sib = Object.values(TEAM).filter(x => x.soc === t.soc && x.id !== MY && x.gid);
   if (sib.length) {
@@ -411,10 +429,22 @@ function viewTeam() {
 function trendChart(g, played) {
   if (!played.length) return emptyNote('Il grafico compare dopo la prima partita giocata.');
   const n = g.tids.length;
-  const pts_ = played.map(m => {
-    const r = rankComputed(compute(g, m.date));
-    return { m, pos: r.findIndex(x => x.t === MY) + 1 };
+  // una tappa per ogni giornata giocata dalla squadra: contano tutte le partite di quella giornata e delle precedenti,
+  // anche se giocate in un altro giorno (la classifica "dopo la giornata 2" include la partita delle 21:30 dopo la nostra)
+  const gs = [...new Set(played.map(m => m.giornata))].sort((a, b) => a - b);
+  const allPlayed = g.matches.filter(m => m.res);
+  const offPos = (offOf(g).find(r => r.t === MY) || {}).pos;
+  const pts_ = gs.map(gn => {
+    const r = rankComputed(compute(g, null, gn));
+    const m = played.filter(x => x.giornata === gn).sort(byDate).pop();
+    return { m, gn, lab: 'G' + gn, tip: 'Dopo la giornata ' + gn, pos: r.findIndex(x => x.t === MY) + 1 };
   });
+  // l'ultima tappa coincide con la classifica ufficiale; se nel frattempo si sono giocate partite di giornate successive, si aggiunge "Oggi"
+  if (offPos) {
+    const lastG = gs[gs.length - 1];
+    if (allPlayed.every(m => m.giornata <= lastG)) pts_[pts_.length - 1].pos = offPos;
+    else pts_.push({ m: null, gn: null, lab: 'Oggi', tip: 'Classifica ufficiale di oggi', pos: offPos });
+  }
   const W = 340, H = 170, L = 30, R = 12, T = 12, B = 26;
   const x = i => pts_.length === 1 ? (L + (W - R)) / 2 : L + i * (W - L - R) / (pts_.length - 1);
   const y = p => T + (p - 1) * (H - T - B) / Math.max(1, n - 1);
@@ -425,11 +455,11 @@ function trendChart(g, played) {
   }
   if (pts_.length > 1) svg += `<polyline class="ln" points="${pts_.map((d, i) => x(i) + ',' + y(d.pos)).join(' ')}"/>`;
   pts_.forEach((d, i) => {
-    svg += `<circle class="pt" cx="${x(i)}" cy="${y(d.pos)}" r="5"><title>Dopo la giornata ${d.m.giornata} (${fD.format(d.m.date)}): ${d.pos}°</title></circle>`;
-    svg += `<text x="${x(i)}" y="${H - 8}" text-anchor="middle">G${d.m.giornata}</text>`;
+    svg += `<circle class="pt" cx="${x(i)}" cy="${y(d.pos)}" r="5"><title>${d.tip}${d.m ? ' (' + fD.format(d.m.date) + ')' : ''}: ${d.pos}°</title></circle>`;
+    svg += `<text x="${x(i)}" y="${H - 8}" text-anchor="middle">${d.lab}</text>`;
   });
   svg += '</svg>';
-  return svg + '<p class="legend">Ricalcolata dai risultati con gli stessi criteri della classifica (punti, vittorie, quoziente set, quoziente punti).</p>';
+  return svg + '<p class="legend">Posizione dopo ogni giornata, contando tutte le partite di quella giornata e delle precedenti. A pari punti valgono gli stessi criteri del sito della lega: partite vinte, quoziente set, differenza punti. L’ultimo punto è la classifica ufficiale.</p>';
 }
 
 /* ---------- vista: classifica ---------- */
@@ -742,7 +772,7 @@ function openMatch(id) {
   const m = MATCH[id]; if (!m) return;
   const g = m.g, r = m.res, w = winner(m), p = PAL[m.pal];
   const other = g.matches.filter(x => x !== m && ((x.h === m.h && x.a === m.a) || (x.h === m.a && x.a === m.h)));
-  const side = (t, sc) => { const o = posOf(t); const st = r ? (w === t ? ' won' : w ? ' lost' : '') : ''; return `<button type="button" class="nx-team${t === MY ? ' me' : ''}${st}" data-t="${t}"><span class="nm">${esc(TEAM[t].short)}</span><span class="meta">${o.pos}° · ${o.pts} pt</span>${t === m.h ? '<span class="tag home">Casa</span>' : ''}${r ? `<span class="sc">${sc}</span>` : ''}</button>`; };
+  const side = (t, sc) => { const st = r ? (w === t ? ' won' : w ? ' lost' : '') : ''; return `<button type="button" class="nx-team${t === MY ? ' me' : ''}${st}" data-t="${t}"><span class="nm">${esc(TEAM[t].short)}</span>${teamMeta(t)}${t === m.h ? '<span class="tag home">Casa</span>' : ''}${r ? `<span class="sc">${sc}</span>` : ''}</button>`; };
   let h = `<div style="padding-right:44px"><span class="eyebrow">${esc(ctxName(g))} · giornata ${m.giornata}</span></div>
 <div class="nx-teams">${side(m.h, r?.sh)}${side(m.a, r?.sa)}</div>`;
   if (r && r.sets.length) {
