@@ -91,7 +91,7 @@ IVL.ms.split('#').forEach(block => {
   const g = GIR[gid];
   body.split(';').forEach((row, i) => {
     const f = row.split(',');
-    const m = { id: gid + '-' + i, g, giornata: +f[0], date: pd(f[1]), pal: +f[2], h: g.tids[+f[3]], a: g.tids[+f[4]], res: null, orig: null, rinv: false, origPal: null, venueChanged: false, by: null, swap: false };
+    const m = { id: gid + '-' + i, num: (IVL.num && IVL.num[gid] && IVL.num[gid][i]) || '', g, giornata: +f[0], date: pd(f[1]), pal: +f[2], h: g.tids[+f[3]], a: g.tids[+f[4]], res: null, orig: null, rinv: false, origPal: null, venueChanged: false, by: null, swap: false };
     if (f[5]) {
       const [s, pts] = f[5].split('/');
       const [sh, sa] = s.split('-').map(Number);
@@ -215,6 +215,8 @@ function gcalUrl(m) {
 const ICON = {
   pin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0113 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></svg>',
   cal: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v4M10 15h4"/></svg>',
+  mail: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M4 7l8 6 8-6"/></svg>',
+  vs: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V11M9 20V5M15 20v-6M20 20V8"/></svg>',
   route: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19l14-14M11 5h8v8"/></svg>',
   dl: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>'
 };
@@ -352,6 +354,8 @@ function viewTeam() {
 </section>`;
 
   h += '<div class="grid">';
+  const pend = ms.filter(sendDue).filter(m => m.date <= NOW).pop();
+  if (pend) h += `<section class="card span-12 send-card" aria-label="Risultato da comunicare"><div class="card-h"><span class="eyebrow">Giornata ${pend.giornata} · ${esc(fD.format(pend.date))} · ${esc(TEAM[pend.h].short)} – ${esc(TEAM[pend.a].short)}</span>${pend.num ? `<span class="tag">${esc(pend.num)}</span>` : ''}</div>${sendBlock(pend)}<p class="legend">Se l’avete già mandato, questo riquadro sparisce quando il risultato compare sul sito della lega.</p></section>`;
   if (next) {
     const side = tt => `<button type="button" class="nx-team${tt === MY ? ' me' : ''}" data-t="${tt}"><span class="nm">${esc(TEAM[tt].short)}</span>${teamMeta(tt)}${tt === next.h ? '<span class="tag home">Casa</span>' : ''}</button>`;
     const p = PAL[next.pal];
@@ -361,7 +365,7 @@ function viewTeam() {
   <div class="nx-teams">${side(next.h)}${side(next.a)}</div>
   ${next.rinv ? `<p class="note">Partita spostata: data originale ${esc(fD.format(next.orig))}${next.by ? ', rinvio chiesto da ' + esc(TEAM[next.by].short) : ''}.</p>` : ''}
   ${venueBlock(next)}
-  <div class="btns">${p ? `<a class="btn primary" href="${mapsUrl(p)}" target="_blank" rel="noopener">${ICON.route}Indicazioni</a>` : ''}${calButton(MY, next)}</div>
+  <div class="btns"><button type="button" class="btn primary" data-act="sfida" data-id="${next.id}">${ICON.vs}Anteprima sfida</button>${p ? `<a class="btn" href="${mapsUrl(p)}" target="_blank" rel="noopener">${ICON.route}Indicazioni</a>` : ''}${calButton(MY, next)}</div>
 </section>`;
   } else {
     h += `<section class="card span-7"><div class="card-h"><span class="eyebrow">Prossima partita</span></div>${emptyNote('Nessuna partita in programma nel calendario attuale.')}</section>`;
@@ -411,9 +415,9 @@ function viewTeam() {
     return `<span class="h2c"><span class="d">${esc(fDM.format(m.date))}</span><small>${home ? 'casa' : 'fuori'}</small></span>`;
   };
   h += `<section class="card span-6" aria-label="Testa a testa"><div class="card-h"><h3>Testa a testa</h3><span class="eyebrow">andata · ritorno</span></div>
-  <div class="h2h">${opps.map(o => { const mm = ms.filter(m => involves(m, o)).sort(byDate); return `<button type="button" class="h2h-row" data-t="${o}"><span class="pos">${posOf(o).pos}°</span><span class="nm">${esc(TEAM[o].short)}</span>${chip(mm[0])}${chip(mm[1])}</button>`; }).join('')}</div></section>`;
+  <div class="h2h">${opps.map(o => { const mm = ms.filter(m => involves(m, o)).sort(byDate); return `<button type="button" class="h2h-row" data-act="sfida-t" data-id="${o}" aria-label="Confronto con ${esc(TEAM[o].short)}"><span class="pos">${posOf(o).pos}°</span><span class="nm">${esc(TEAM[o].short)}</span>${chip(mm[0])}${chip(mm[1])}</button>`; }).join('')}</div></section>`;
 
-  if (played >= 2) h += `<section class="card span-12" aria-label="Andamento in classifica"><div class="card-h"><h3>Andamento</h3><span class="eyebrow">posizione dopo ogni giornata</span></div>${trendChart(g, ms.filter(m => m.res))}</section>`;
+  if (played >= 2) h += `<section class="card span-12" aria-label="Andamento in classifica"><div class="card-h"><h3>Andamento</h3><span class="eyebrow">posizione dopo ogni giornata</span></div>${trendChart(g, [MY])}</section>`;
 
   const sib = Object.values(TEAM).filter(x => x.soc === t.soc && x.id !== MY && x.gid);
   if (sib.length) {
@@ -426,40 +430,43 @@ function viewTeam() {
   return h;
 }
 
-function trendChart(g, played) {
-  if (!played.length) return emptyNote('Il grafico compare dopo la prima partita giocata.');
-  const n = g.tids.length;
-  // una tappa per ogni giornata giocata dalla squadra: contano tutte le partite di quella giornata e delle precedenti,
-  // anche se giocate in un altro giorno (la classifica "dopo la giornata 2" include la partita delle 21:30 dopo la nostra)
-  const gs = [...new Set(played.map(m => m.giornata))].sort((a, b) => a - b);
+/* posizione dopo ogni giornata: contano tutte le partite di quella giornata e delle precedenti, anche se giocate in un altro giorno
+   (la classifica "dopo la giornata 2" include la partita delle 21:30 dopo la nostra); l'ultima tappa è la classifica ufficiale */
+function trendSeries(g, teams) {
+  const gs = [...new Set(g.matches.filter(m => m.res && teams.some(t => involves(m, t))).map(m => m.giornata))].sort((a, b) => a - b);
   const allPlayed = g.matches.filter(m => m.res);
-  const offPos = (offOf(g).find(r => r.t === MY) || {}).pos;
   const pts_ = gs.map(gn => {
     const r = rankComputed(compute(g, null, gn));
-    const m = played.filter(x => x.giornata === gn).sort(byDate).pop();
-    return { m, gn, lab: 'G' + gn, tip: 'Dopo la giornata ' + gn, pos: r.findIndex(x => x.t === MY) + 1 };
+    return { lab: 'G' + gn, tip: 'Dopo la giornata ' + gn, pos: teams.map(t => r.findIndex(x => x.t === t) + 1) };
   });
-  // l'ultima tappa coincide con la classifica ufficiale; se nel frattempo si sono giocate partite di giornate successive, si aggiunge "Oggi"
-  if (offPos) {
+  const off = offOf(g), offPos = teams.map(t => (off.find(r => r.t === t) || {}).pos);
+  if (pts_.length && offPos.every(Boolean)) {
     const lastG = gs[gs.length - 1];
     if (allPlayed.every(m => m.giornata <= lastG)) pts_[pts_.length - 1].pos = offPos;
-    else pts_.push({ m: null, gn: null, lab: 'Oggi', tip: 'Classifica ufficiale di oggi', pos: offPos });
+    else pts_.push({ lab: 'Oggi', tip: 'Classifica ufficiale di oggi', pos: offPos });
   }
+  return pts_;
+}
+function trendChart(g, teams, brief) {
+  const pts_ = trendSeries(g, teams);
+  if (!pts_.length) return emptyNote('Il grafico compare dopo la prima partita giocata.');
+  const n = g.tids.length;
   const W = 340, H = 170, L = 30, R = 12, T = 12, B = 26;
   const x = i => pts_.length === 1 ? (L + (W - R)) / 2 : L + i * (W - L - R) / (pts_.length - 1);
   const y = p => T + (p - 1) * (H - T - B) / Math.max(1, n - 1);
-  let svg = `<svg class="chart" viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Posizione in classifica dopo ogni partita">`;
+  let svg = `<svg class="chart" viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Posizione in classifica dopo ogni giornata: ${teams.map((t, k) => esc(TEAM[t].short) + ' ' + pts_.map(d => d.pos[k] + '°').join(', ')).join('; ')}">`;
   for (let p = 1; p <= n; p++) {
     svg += `<line class="grid" x1="${L}" x2="${W - R}" y1="${y(p)}" y2="${y(p)}"/>`;
     if (p === 1 || p === n || n <= 8) svg += `<text x="${L - 8}" y="${y(p) + 4}" text-anchor="end">${p}°</text>`;
   }
-  if (pts_.length > 1) svg += `<polyline class="ln" points="${pts_.map((d, i) => x(i) + ',' + y(d.pos)).join(' ')}"/>`;
-  pts_.forEach((d, i) => {
-    svg += `<circle class="pt" cx="${x(i)}" cy="${y(d.pos)}" r="5"><title>${d.tip}${d.m ? ' (' + fD.format(d.m.date) + ')' : ''}: ${d.pos}°</title></circle>`;
-    svg += `<text x="${x(i)}" y="${H - 8}" text-anchor="middle">${d.lab}</text>`;
+  pts_.forEach((d, i) => { svg += `<text x="${x(i)}" y="${H - 8}" text-anchor="middle">${d.lab}</text>`; });
+  teams.forEach((t, k) => {
+    const cl = k ? ' b' : '';
+    if (pts_.length > 1) svg += `<polyline class="ln${cl}" points="${pts_.map((d, i) => x(i) + ',' + y(d.pos[k])).join(' ')}"/>`;
+    pts_.forEach((d, i) => { svg += `<circle class="pt${cl}" cx="${x(i)}" cy="${y(d.pos[k])}" r="${k ? 4 : 5}"><title>${esc(TEAM[t].short)} · ${d.tip}: ${d.pos[k]}°</title></circle>`; });
   });
   svg += '</svg>';
-  return svg + '<p class="legend">Posizione dopo ogni giornata, contando tutte le partite di quella giornata e delle precedenti. A pari punti valgono gli stessi criteri del sito della lega: partite vinte, quoziente set, differenza punti. L’ultimo punto è la classifica ufficiale.</p>';
+  return svg + (brief ? '<p class="legend">L’ultimo punto è la classifica ufficiale.</p>' : `<p class="legend">Posizione dopo ogni giornata, contando tutte le partite di quella giornata e delle precedenti. A pari punti valgono gli stessi criteri del sito della lega: partite vinte, quoziente set, differenza punti. L’ultimo punto è la classifica ufficiale.</p>`);
 }
 
 /* ---------- vista: classifica ---------- */
@@ -788,7 +795,8 @@ ${r.sets.map(([x, y], i) => `<tr><td class="l">${i + 1}°</td><td class="l${x > 
 ${m.rinv ? `<p class="note">Data originale ${esc(fD.format(m.orig))} ore ${fT(m.orig)}${m.by ? ' · rinvio chiesto da ' + esc(TEAM[m.by].short) : ''}${m.swap ? ' · campo invertito' : ''}.</p>` : ''}
 ${m.venueChanged && PAL[m.origPal] ? `<p class="note">Palestra cambiata rispetto al calendario: prevista ${esc(PAL[m.origPal].name)}, ${esc(PAL[m.origPal].com)}.</p>` : ''}
 ${venueBlock(m)}
-<div class="btns">${p ? `<a class="btn primary" href="${mapsUrl(p)}" target="_blank" rel="noopener">${ICON.route}Indicazioni</a>` : ''}${!r && m.date > NOW ? `<a class="btn" href="${gcalUrl(m)}" target="_blank" rel="noopener">${ICON.cal}Google Calendar</a>` : ''}</div></div>`;
+${numRow(m)}
+<div class="btns">${p ? `<a class="btn primary" href="${mapsUrl(p)}" target="_blank" rel="noopener">${ICON.route}Indicazioni</a>` : ''}${!r && m.date > NOW ? `<a class="btn" href="${gcalUrl(m)}" target="_blank" rel="noopener">${ICON.cal}Google Calendar</a>` : ''}<button type="button" class="btn" data-act="sfida" data-id="${m.id}">${ICON.vs}${r ? 'Confronto squadre' : 'Anteprima sfida'}</button></div>${sendBlock(m)}</div>`;
   if (other.length) h += `<div class="card"><div class="card-h"><h3>${m.giornata < other[0].giornata ? 'Ritorno' : 'Andata'}</h3></div><div class="mlist">${other.map(x => matchRow(x, { giornata: true })).join('')}</div></div>`;
   openSheet(h, 'Partita ' + TEAM[m.h].short + ' – ' + TEAM[m.a].short);
 }
@@ -803,9 +811,210 @@ function openTeam(t) {
 ${hv ? `<div class="card">${'<span class="eyebrow">Campo di casa</span>'}<div style="margin-top:8px">${venueBlock({ pal: hv.id, h: t, a: 0 }, false)}</div>${t !== MY && km(myHome(), hv) != null ? `<p class="small muted" style="margin-top:6px">${num1(km(myHome(), hv))} km in linea d'aria dalla palestra di ${esc(TEAM[MY].short)}</p>` : ''}<div class="btns" style="margin-top:10px"><a class="btn" href="${mapsUrl(hv)}" target="_blank" rel="noopener">${ICON.route}Indicazioni</a></div></div>` : ''}
 <div class="card"><div class="card-h"><h3>Calendario</h3><span class="eyebrow">${ms.filter(m => m.res).length}/${ms.length} giocate</span></div><div class="mlist">${ms.map(m => matchRow(m, { giornata: true })).join('')}</div></div>
 ${HOSTED ? `<div class="btns">${calButton(t)}</div>` : ''}
-<div class="btns">${t !== MY ? `<button type="button" class="btn primary" data-act="set-my" data-id="${t}">Imposta come la mia squadra</button>` : '<span class="tag mine">È la tua squadra</span>'}<button type="button" class="btn" data-gir="${g.id}" data-go="classifica">Classifica del girone</button></div>`;
+<div class="btns">${t !== MY && TEAM[MY].gid === T.gid ? `<button type="button" class="btn primary" data-act="sfida-t" data-id="${t}">${ICON.vs}Confronto con ${esc(TEAM[MY].short)}</button>` : ''}${t !== MY ? `<button type="button" class="btn" data-act="set-my" data-id="${t}">Imposta come la mia squadra</button>` : '<span class="tag mine">È la tua squadra</span>'}<button type="button" class="btn" data-gir="${g.id}" data-go="classifica">Classifica del girone</button></div>`;
   void nx;
   openSheet(h, 'Squadra ' + T.short);
+}
+
+/* ---------- numero gara e mail del risultato ---------- */
+const RES_MAIL = 'risultativolleycup@gmail.com';
+const dmyS = d => `${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()}`;
+function resultMail(m) {
+  const g = m.g, camp = CAMP[g.cid].name;
+  const subj = `${camp} – ${g.name}${m.num ? ' – gara ' + m.num : ''}`;
+  const lines = [
+    `Numero gara: ${m.num || ''}`,
+    `${camp} – ${g.name} – giornata ${m.giornata}`,
+    `${TEAM[m.h].name} – ${TEAM[m.a].name}`,
+    `Giocata il ${dmyS(m.date)} alle ${fT(m.date)}`,
+    '',
+    'Risultato finale (set): __ – __',
+    'Parziali: __-__  __-__  __-__  __-__  __-__'
+  ];
+  if (/autoarbitrat/i.test(g.tip)) lines.push('', 'In allegato le distinte gara firmate di entrambe le squadre.');
+  return `mailto:${RES_MAIL}?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(lines.join('\r\n'))}`;
+}
+const sendDue = m => m.h === MY && !m.res && m.date - NOW < 12 * 3600e3 && NOW - m.date < 7 * DAY;
+function sendBlock(m) {
+  if (m.h !== MY || m.res) return '';
+  if (!sendDue(m)) return m.date > NOW ? '<p class="small muted">Giocate in casa: dopo la partita il risultato lo comunica la vostra squadra. Dal giorno della gara qui trovate la mail già pronta.</p>' : '';
+  return `<div class="send"><span class="eyebrow">Risultato da comunicare</span><p>Tocca alla squadra di casa: entro 24 ore dalla gara a <b>${RES_MAIL}</b>, con in copia la squadra avversaria. La mail si apre già compilata: mancano risultato e parziali (in alternativa si può allegare la foto del referto).${/autoarbitrat/i.test(m.g.tip) ? ' Gara auto-arbitrata: vanno allegate anche le distinte firmate.' : ''}</p>
+<div class="btns"><a class="btn primary" href="${esc(resultMail(m))}">${ICON.mail}Prepara la mail</a>${m.num ? `<button type="button" class="btn" data-act="copy-num" data-id="${m.id}">Copia numero gara</button>` : ''}</div></div>`;
+}
+function numRow(m) {
+  if (!m.num) return '';
+  return `<div class="kv"><span>Numero gara</span><span class="numv"><b class="mono">${esc(m.num)}</b><button type="button" class="link-btn" data-act="copy-num" data-id="${m.id}">Copia</button></span></div>`;
+}
+
+/* ---------- anteprima della sfida ---------- */
+const sgn1 = v => (v > 0 ? '+' : v < 0 ? '−' : '') + num1(Math.abs(v));
+function teamExtra(g, t) {
+  const ms = g.matches.filter(m => m.res && involves(m, t)).sort(byDate);
+  const x = { n: ms.length, close: 0, closeW: 0, first: 0, firstW: 0, comeback: 0, streak: 0, streakR: '', vs: {} };
+  ms.forEach(m => {
+    const home = m.h === t, opp = home ? m.a : m.h, w = winner(m);
+    const sets = m.res.sets.map(([p, q2]) => home ? [p, q2] : [q2, p]);
+    sets.forEach(([p, q2]) => { if (Math.abs(p - q2) <= 3) { x.close++; if (p > q2) x.closeW++; } });
+    if (sets.length) { x.first++; if (sets[0][0] > sets[0][1]) x.firstW++; else if (w === t) x.comeback++; }
+    (x.vs[opp] = x.vs[opp] || []).push({ m, my: home ? m.res.sh : m.res.sa, op: home ? m.res.sa : m.res.sh, r: w === t ? 'w' : w ? 'l' : 'd' });
+  });
+  for (let i = ms.length - 1; i >= 0; i--) { const w = winner(ms[i]), r = w === t ? 'w' : w ? 'l' : 'd'; if (!x.streakR) x.streakR = r; if (r !== x.streakR) break; x.streak++; }
+  return x;
+}
+function scenarios(g, m) {
+  if (!m || m.res) return null;
+  const off = offOf(g).map((r, i) => ({ ...r, i }));
+  let outs;
+  if (g.fixed) {
+    const cnt = {}; g.matches.forEach(x => { if (x.res) { const k = x.res.sh + x.res.sa; cnt[k] = (cnt[k] || 0) + 1; } });
+    const tot = +((Object.entries(cnt).sort((a, b) => b[1] - a[1])[0] || ['5'])[0]);
+    outs = []; for (let h = tot; h >= 0; h--) outs.push([h, tot - h, h, tot - h]);
+  } else outs = [[3, 0, 3, 0], [3, 1, 3, 0], [3, 2, 2, 1], [2, 3, 1, 2], [1, 3, 0, 3], [0, 3, 0, 3]];
+  return outs.map(([sh, sa, ph, pa]) => {
+    const rows = off.map(r => ({ ...r }));
+    const H = rows.find(r => r.t === m.h), A = rows.find(r => r.t === m.a);
+    if (!H || !A) return null;
+    H.pts += ph; A.pts += pa; H.g++; A.g++; H.sv += sh; H.sp += sa; A.sv += sa; A.sp += sh;
+    if (sh > sa) H.v++; else if (sa > sh) A.v++;
+    rows.sort((a, b) => b.pts - a.pts || b.v - a.v || q(b.sv, b.sp) - q(a.sv, a.sp) || (b.pv - b.pp) - (a.pv - a.pp) || a.i - b.i);
+    return { sh, sa, h: { pos: rows.indexOf(H) + 1, pts: H.pts }, a: { pos: rows.indexOf(A) + 1, pts: A.pts } };
+  }).filter(Boolean);
+}
+function insights(g, a, b, m, S, X, sc) {
+  const out = [], nm = t => `<b>${esc(TEAM[t].short)}</b>`, plur = (n, s, p) => n + ' ' + (n === 1 ? s : p);
+  const add = (t, w, s) => out.push({ t, w, s });
+  [a, b].forEach(t => {
+    const s = S[t], x = X[t];
+    if (!s || !s.g) return;
+    if (s.sp === 0) add(t, 80, `${nm(t)} non ha ancora perso un set: ${s.sv} vinti su ${s.sv}.`);
+    else if (s.g >= 2 && s.p === 0) add(t, 72, `${nm(t)} è ancora imbattuta: ${plur(s.v, 'vittoria', 'vittorie')} su ${s.g}.`);
+    else if (x.streakR === 'w' && x.streak >= 2) add(t, 55 + x.streak * 4, `${nm(t)} viene da ${x.streak} vittorie di fila.`);
+    if (s.g >= 2 && s.v === 0) add(t, 60, `${nm(t)} non ha ancora vinto: ${plur(s.g, 'partita giocata', 'partite giocate')}.`);
+    else if (x.streakR === 'l' && x.streak >= 2) add(t, 50 + x.streak * 4, `${nm(t)} ha perso le ultime ${x.streak} partite.`);
+    if (x.first >= 2 && x.firstW === x.first) add(t, 48, `${nm(t)} ha vinto il primo set in tutte le ${x.first} partite.`);
+    else if (x.first >= 2 && x.firstW === 0) add(t, 44, `${nm(t)} ha sempre perso il primo set (${x.first} su ${x.first}).`);
+    if (x.comeback) add(t, 52, `${nm(t)} ha già ribaltato ${plur(x.comeback, 'partita', 'partite')} dopo aver perso il primo set.`);
+    if (x.close >= 3 && x.closeW / x.close >= 0.75) add(t, 56, `Nei set tirati (3 punti di scarto o meno) ${nm(t)} ne ha vinti ${x.closeW} su ${x.close}.`);
+    else if (x.close >= 3 && x.closeW / x.close <= 0.25) add(t, 50, `Nei set tirati (3 punti di scarto o meno) ${nm(t)} ne ha vinti solo ${x.closeW} su ${x.close}.`);
+    if (s.adv >= 2 && (s.advW === s.adv || s.advW === 0)) add(t, 46, `${nm(t)} ha ${s.advW ? 'vinto tutti' : 'perso tutti'} i ${s.adv} set finiti ai vantaggi.`);
+  });
+  if (m) {
+    const H = S[m.h], A = S[m.a];
+    if (H && H.hg >= 2 && (H.hv === H.hg || H.hv === 0)) add(m.h, 58, `${nm(m.h)} in casa ${H.hv ? 'ha vinto tutte le ' + H.hg + ' partite' : 'non ha ancora vinto (' + H.hg + ' giocate)'}.`);
+    if (A && A.ag >= 2 && (A.av === A.ag || A.av === 0)) add(m.a, 58, `${nm(m.a)} in trasferta ${A.av ? 'ha vinto tutte le ' + A.ag + ' partite' : 'non ha ancora vinto (' + A.ag + ' giocate)'}.`);
+  }
+  const sa = S[a], sb = S[b];
+  if (sa && sb && sa.sets && sb.sets) {
+    const da = (sa.pv - sa.pp) / sa.sets, db = (sb.pv - sb.pp) / sb.sets;
+    if (Math.abs(da - db) >= 2) add(da > db ? a : b, 50 + Math.min(20, Math.abs(da - db) * 3), `Scarto medio per set: ${nm(a)} ${sgn1(da)}, ${nm(b)} ${sgn1(db)}.`);
+  }
+  g.tids.forEach(c => {
+    if (c === a || c === b) return;
+    const ra = X[a].vs[c], rb = X[b].vs[c];
+    if (!ra || !rb) return;
+    const wa = ra.some(r => r.r === 'w'), wb = rb.some(r => r.r === 'w');
+    if (wa !== wb) { const w_ = wa ? a : b, l_ = wa ? b : a, rw = (wa ? ra : rb)[0], rl = (wa ? rb : ra)[0]; add(w_, 62, `Contro <b>${esc(TEAM[c].short)}</b>: ${nm(w_)} ha vinto ${rw.my}–${rw.op}, ${nm(l_)} ha perso ${rl.my}–${rl.op}.`); }
+  });
+  const prev = g.matches.filter(x => x.res && involves(x, a) && involves(x, b) && x !== m).sort(byDate).pop();
+  if (prev) { const w_ = winner(prev), sc_ = w_ === prev.a ? `${prev.res.sa}–${prev.res.sh}` : `${prev.res.sh}–${prev.res.sa}`; add(w_ || a, 66, `${m && !m.res ? 'All’andata' : 'Nell’altra sfida della stagione'} ${w_ ? nm(w_) + ' ha vinto ' + sc_ : 'la partita è risultata incompleta'}.`); }
+  if (m && !m.res && sc && sc.length) {
+    const oh = posOf(m.h), oa = posOf(m.a);
+    if (oh && oa) {
+      if (oh.pts === oa.pts) add(m.h, 64, `Sono a pari punti (${oh.pts}): chi vince la sfida va davanti all’altra.`);
+      else {
+        const lead = oh.pts > oa.pts ? m.h : m.a, chase = lead === m.h ? m.a : m.h, gap = Math.abs(oh.pts - oa.pts);
+        const ok = sc.filter(r => (chase === m.h ? r.h.pos < r.a.pos : r.a.pos < r.h.pos));
+        if (ok.length) { const worst = chase === m.h ? ok[ok.length - 1] : ok[0]; add(chase, 63, `${nm(chase)} è a ${plur(gap, 'punto', 'punti')} da ${nm(lead)}: con un ${chase === m.h ? worst.sh + '–' + worst.sa : worst.sa + '–' + worst.sh} la scavalca in classifica.`); }
+        else add(lead, 54, `Anche perdendo questa sfida, ${nm(lead)} resta davanti a ${nm(chase)} in classifica.`);
+      }
+    }
+  }
+  out.sort((p, q2) => q2.w - p.w);
+  const per = {}, pick = [];
+  for (const o of out) { if ((per[o.t] || 0) >= 2) continue; per[o.t] = (per[o.t] || 0) + 1; pick.push(o.s); if (pick.length >= 4) break; }
+  return pick;
+}
+function setBars(g, a, b, S) {
+  const N = Math.max(...[a, b].map(t => S[t].setN.reduce((k, v, i) => v ? i + 1 : k, 0)));
+  if (!N) return '';
+  const W = 340, H = 168, L = 34, R = 8, T = 16, B = 26, gw = (W - L - R) / N, bw = Math.min(22, gw * 0.3);
+  const y = v => T + (1 - v) * (H - T - B);
+  let svg = `<svg class="chart" viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Set vinti per numero di set">`;
+  [0, 0.5, 1].forEach(v => { svg += `<line class="grid" x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}"/><text x="${L - 6}" y="${y(v) + 4}" text-anchor="end">${v * 100}%</text>`; });
+  for (let i = 0; i < N; i++) {
+    const cx = L + gw * i + gw / 2;
+    [a, b].forEach((t, k) => {
+      const s = S[t], n = s.setN[i], w = s.setW[i], x0 = k ? cx + 2 : cx - bw - 2;
+      if (!n) { svg += `<text x="${x0 + bw / 2}" y="${y(0) - 4}" text-anchor="middle">–</text>`; return; }
+      const v = w / n, top = y(v);
+      svg += `<rect class="bar${k ? ' b' : ''}" x="${x0}" y="${Math.min(top, y(0) - 2)}" width="${bw}" height="${Math.max(2, y(0) - top)}" rx="2"><title>${esc(TEAM[t].short)} · ${i + 1}° set: vinti ${w} su ${n}</title></rect>`;
+      svg += `<text class="bv" x="${x0 + bw / 2}" y="${Math.min(top, y(0) - 2) - 4}" text-anchor="middle">${w}/${n}</text>`;
+    });
+    svg += `<text x="${cx}" y="${H - 8}" text-anchor="middle">${i + 1}° set</text>`;
+  }
+  return svg + '</svg>';
+}
+function sfidaLegend(a, b) {
+  return `<div class="sf-leg"><span><i class="sw"></i>${esc(TEAM[a].short)}</span><span><i class="sw b"></i>${esc(TEAM[b].short)}</span></div>`;
+}
+function openSfida(a, b, m) {
+  if (b === MY) [a, b] = [b, a]; // la tua squadra sempre a sinistra, nel colore del sito
+  const g = TEAM[a] && GIR[TEAM[a].gid];
+  if (!g || !TEAM[b] || TEAM[b].gid !== g.id) return;
+  const S = compOf(g), X = { [a]: teamExtra(g, a), [b]: teamExtra(g, b) }, oa = posOf(a), ob = posOf(b), sa = S[a], sb = S[b];
+  const nmb = t => esc(TEAM[t].short), pr = (x, y) => y ? x / y : null, pctS = v => v == null ? '—' : Math.round(v * 100) + '%';
+  const sc = scenarios(g, m);
+  const side = (t, k) => `<div class="side${k ? ' r' : ''}"><button type="button" class="tn-btn" data-t="${t}"><span class="tn${t === MY ? ' me' : ''}"><i class="sw${k ? ' b' : ''}"></i>${nmb(t)}</span></button><div class="meta">${(k ? ob : oa).pos}° · ${(k ? ob : oa).pts} pt${m && m.h === t ? ' · <span class="tag home">Casa</span>' : ''}</div><div class="sf-form">${formHTML(S[t].res)}</div></div>`;
+  const p = m && PAL[m.pal];
+  let h = `<div style="padding-right:44px"><span class="eyebrow">${m && !m.res ? 'Anteprima' : 'Confronto'} · ${esc(ctxName(g))}${m ? ' · giornata ' + m.giornata : ''}</span></div>
+<div class="card sf-head"><div class="vs">${side(a, 0)}<div class="mid">${m && m.res ? `<span class="score">${m.res.sh}–${m.res.sa}</span>` : 'VS'}</div>${side(b, 1)}</div>
+${m ? `<p class="small muted sf-when">${esc(cap(fDL.format(m.date)))} · ore ${fT(m.date)}${p ? ' · ' + esc(p.name) + ', ' + esc(p.com) : ''}</p>` : ''}</div>`;
+  const ins = insights(g, a, b, m, S, X, sc);
+  if (ins.length) h += `<div class="card"><div class="card-h"><h3>Da tenere d’occhio</h3></div><ul class="ins">${ins.map(s => `<li><span>${s}</span></li>`).join('')}</ul>${Math.min(sa.g, sb.g) < 3 ? '<p class="legend">Poche partite giocate finora: questi numeri cambiano in fretta.</p>' : ''}</div>`;
+  if (sc && sc.length) {
+    h += `<div class="card"><div class="card-h"><h3>Cosa c’è in palio</h3><span class="eyebrow">classifica dopo la sfida</span></div><div class="tscroll"><table class="std sf-sc"><thead><tr><th class="l">Risultato</th><th class="l">${nmb(m.h)}</th><th class="l">${nmb(m.a)}</th></tr></thead><tbody>
+${sc.map(r => `<tr${r.sh > r.sa ? '' : ' class="alt"'}><td class="l"><b>${r.sh}–${r.sa}</b></td><td class="l${m.h === MY ? ' pts' : ''}">${r.h.pos}° · ${r.h.pts} pt</td><td class="l${m.a === MY ? ' pts' : ''}">${r.a.pos}° · ${r.a.pts} pt</td></tr>`).join('')}
+</tbody></table></div><p class="legend">Risultato visto dalla squadra di casa. Posizioni stimate con questa sola partita, senza le altre della giornata; a parità di punti, vittorie e quoziente set decide la differenza punti, che qui resta quella di oggi.</p></div>`;
+  }
+  const rows = [
+    { l: 'Punti in classifica', a: oa.pts, b: ob.pts, hi: 1, bar: 1 },
+    { l: 'Partite vinte', a: pr(sa.v, sa.g), b: pr(sb.v, sb.g), f: pctS, sa: `${sa.v} su ${sa.g}`, sb: `${sb.v} su ${sb.g}`, hi: 1, bar: 1 },
+    { l: 'Set vinti', a: pr(sa.sv, sa.sv + sa.sp), b: pr(sb.sv, sb.sv + sb.sp), f: pctS, sa: `${sa.sv} su ${sa.sv + sa.sp}`, sb: `${sb.sv} su ${sb.sv + sb.sp}`, hi: 1, bar: 1 },
+    { l: 'Punti fatti per set', a: pr(sa.pv, sa.sets), b: pr(sb.pv, sb.sets), f: num1, hi: 1, bar: 1 },
+    { l: 'Punti subiti per set', a: pr(sa.pp, sa.sets), b: pr(sb.pp, sb.sets), f: num1, hi: 0, bar: 1 },
+    { l: 'Scarto medio per set', a: pr(sa.pv - sa.pp, sa.sets), b: pr(sb.pv - sb.pp, sb.sets), f: sgn1, hi: 1 },
+    { l: 'Primo set vinto', a: pr(X[a].firstW, X[a].first), b: pr(X[b].firstW, X[b].first), f: pctS, sa: `${X[a].firstW} su ${X[a].first}`, sb: `${X[b].firstW} su ${X[b].first}`, hi: 1, bar: 1 },
+    { l: 'Set tirati vinti', a: pr(X[a].closeW, X[a].close), b: pr(X[b].closeW, X[b].close), f: pctS, sa: X[a].close ? `${X[a].closeW} su ${X[a].close}` : 'nessuno', sb: X[b].close ? `${X[b].closeW} su ${X[b].close}` : 'nessuno', hi: 1, bar: 1 }
+  ];
+  if (sa.adv || sb.adv) rows.push({ l: 'Set ai vantaggi vinti', a: pr(sa.advW, sa.adv), b: pr(sb.advW, sb.adv), f: pctS, sa: sa.adv ? `${sa.advW} su ${sa.adv}` : 'nessuno', sb: sb.adv ? `${sb.advW} su ${sb.adv}` : 'nessuno', hi: 1, bar: 1 });
+  if (m) {
+    const ha = m.h === a, ga = ha ? sa.hg : sa.ag, va = ha ? sa.hv : sa.av, gb = ha ? sb.ag : sb.hg, vb = ha ? sb.av : sb.hv;
+    rows.push({ l: 'In casa · in trasferta', a: pr(va, ga), b: pr(vb, gb), f: pctS, sa: `${ha ? 'in casa' : 'fuori'} ${va}–${ga - va}`, sb: `${ha ? 'fuori' : 'in casa'} ${vb}–${gb - vb}`, hi: 1, bar: 1 });
+  }
+  const tt = rows.map(r => {
+    const f = r.f || (v => v), A = r.a, Bv = r.b, ok = A != null && Bv != null;
+    const best = !ok || A === Bv ? '' : ((A > Bv) === !!r.hi ? 'a' : 'b');
+    const mx = ok ? Math.max(Math.abs(A), Math.abs(Bv)) : 0;
+    const wA = r.bar && ok && mx ? Math.round(100 * A / mx) : 0, wB = r.bar && ok && mx ? Math.round(100 * Bv / mx) : 0;
+    return `<div class="tt-row"><span class="tt-v${best === 'a' ? ' best' : ''}">${A == null ? '—' : f(A)}${r.sa && A != null ? `<small>${r.sa}</small>` : ''}</span><span class="tt-l">${r.l}</span><span class="tt-v r${best === 'b' ? ' best' : ''}">${Bv == null ? '—' : f(Bv)}${r.sb && Bv != null ? `<small>${r.sb}</small>` : ''}</span>${r.bar && ok ? `<span class="tt-bar" aria-hidden="true"><span class="a${best === 'b' ? ' dim' : ''}" style="width:${wA}%"></span><span class="b${best === 'a' ? ' dim' : ''}" style="width:${wB}%"></span></span>` : ''}</div>`;
+  }).join('');
+  h += `<div class="card"><div class="card-h"><h3>Testa a testa</h3><span class="eyebrow">numeri della stagione</span></div>${sa.g || sb.g ? `<div class="tt">${tt}</div><p class="legend">Set tirati: finiti con 3 punti di scarto o meno. In grassetto il dato migliore.</p>` : emptyNote('I confronti compaiono dopo le prime partite giocate.')}</div>`;
+  const bars = setBars(g, a, b, S);
+  if (bars) h += `<div class="card"><div class="card-h"><h3>Set per set</h3><span class="eyebrow">quota di set vinti</span></div>${sfidaLegend(a, b)}${bars}<p class="legend">Per ogni set (1°, 2°…) la quota vinta nelle partite giocate: dice chi parte forte e chi chiude meglio.</p></div>`;
+  if (trendSeries(g, [a, b]).length >= 2) h += `<div class="card"><div class="card-h"><h3>Andamento</h3><span class="eyebrow">posizione dopo ogni giornata</span></div>${sfidaLegend(a, b)}${trendChart(g, [a, b], true)}</div>`;
+  const commons = g.tids.filter(c => c !== a && c !== b && X[a].vs[c] && X[b].vs[c]).sort((p1, p2) => posOf(p1).pos - posOf(p2).pos);
+  const chips = list => list.map(r => `<span class="tag res ${r.r === 'w' ? 'win' : r.r === 'l' ? 'loss' : 'warn'}">${r.r === 'w' ? 'V' : r.r === 'l' ? 'P' : '='} ${r.my}–${r.op}</span>`).join('');
+  h += `<div class="card"><div class="card-h"><h3>Avversari comuni</h3><span class="eyebrow">stesse squadre affrontate</span></div>${commons.length ? `<div class="co"><div class="co-row co-h"><span></span><span><i class="sw"></i>${nmb(a)}</span><span><i class="sw b"></i>${nmb(b)}</span></div>${commons.map(c => `<button type="button" class="co-row" data-t="${c}"><span class="nm">${posOf(c).pos}° ${nmb(c)}</span><span class="co-r">${chips(X[a].vs[c])}</span><span class="co-r">${chips(X[b].vs[c])}</span></button>`).join('')}</div>` : emptyNote('Ancora nessun avversario affrontato da entrambe.')}</div>`;
+  const meet = g.matches.filter(x => involves(x, a) && involves(x, b)).sort(byDate);
+  if (meet.length) h += `<div class="card"><div class="card-h"><h3>Le sfide della stagione</h3><span class="eyebrow">andata e ritorno</span></div><div class="mlist">${meet.map(x => matchRow(x, { giornata: true })).join('')}</div></div>`;
+  h += `<div class="btns"><button type="button" class="btn" data-t="${a}">Scheda ${nmb(a)}</button><button type="button" class="btn" data-t="${b}">Scheda ${nmb(b)}</button>${p && m && !m.res ? `<a class="btn" href="${mapsUrl(p)}" target="_blank" rel="noopener">${ICON.route}Indicazioni</a>` : ''}</div>`;
+  openSheet(h, (m && !m.res ? 'Anteprima ' : 'Confronto ') + TEAM[a].short + ' – ' + TEAM[b].short);
+}
+function openSfidaWith(o) {
+  const g = GIR[TEAM[MY].gid];
+  if (!g || !TEAM[o] || TEAM[o].gid !== g.id) return openTeam(o);
+  const nx = g.matches.filter(x => involves(x, MY) && involves(x, o) && !x.res).sort(byDate)[0];
+  if (nx) openSfida(nx.h, nx.a, nx); else openSfida(MY, o, null);
 }
 function openCalSheet(t, mid) {
   const m = mid && MATCH[mid];
@@ -935,6 +1144,9 @@ document.addEventListener('click', e => {
   if (act === 'map-focus') return focusMarker(+el.dataset.id);
   if (act === 'tfull') { tFull = !tFull; store.set('tfull', tFull); render(false); return; }
   if (act === 'cal-sheet') return openCalSheet(+el.dataset.id, el.dataset.mm);
+  if (act === 'sfida') { const m = MATCH[el.dataset.id]; if (m) openSfida(m.h, m.a, m); return; }
+  if (act === 'sfida-t') return openSfidaWith(+el.dataset.id);
+  if (act === 'copy-num') { const m = MATCH[el.dataset.id]; if (m && m.num) copyText(m.num, 'Numero gara copiato: ' + m.num); return; }
   if (act === 'copy-cal') { const u = calUrl(el.dataset.id, 'https'); copyText(u, 'Indirizzo del calendario copiato'); return; }
   if (act === 'share') {
     const u = location.href.split('#')[0];
