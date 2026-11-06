@@ -835,11 +835,18 @@ function resultMail(m) {
   return `mailto:${RES_MAIL}?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(lines.join('\r\n'))}`;
 }
 const sendDue = m => m.h === MY && !m.res && m.date - NOW < 12 * 3600e3 && NOW - m.date < 7 * DAY;
+/* bozza della mail del risultato: sempre disponibile per le partite in casa della squadra scelta ancora senza risultato;
+   evidenziata (gialla) dal giorno della gara, quando va mandata */
 function sendBlock(m) {
-  if (m.h !== MY || m.res) return '';
-  if (!sendDue(m)) return m.date > NOW ? '<p class="small muted">Giocate in casa: dopo la partita il risultato lo comunica la vostra squadra. Dal giorno della gara qui trovate la mail già pronta.</p>' : '';
-  return `<div class="send"><span class="eyebrow">Risultato da comunicare</span><p>Tocca alla squadra di casa: entro 24 ore dalla gara a <b>${RES_MAIL}</b>, con in copia la squadra avversaria. La mail si apre già compilata: mancano risultato e parziali (in alternativa si può allegare la foto del referto).${/autoarbitrat/i.test(m.g.tip) ? ' Gara auto-arbitrata: vanno allegate anche le distinte firmate.' : ''}</p>
-<div class="btns"><a class="btn primary" href="${esc(resultMail(m))}">${ICON.mail}Prepara la mail</a>${m.num ? `<button type="button" class="btn" data-act="copy-num" data-id="${m.id}">Copia numero gara</button>` : ''}</div></div>`;
+  if (!involves(m, MY)) return '';
+  if (m.h !== MY) return m.res ? '' : `<p class="small muted">In trasferta: il risultato lo comunica la squadra di casa, ${esc(TEAM[m.h].short)}.</p>`;
+  if (m.res) return '<p class="small muted">Risultato già registrato sul sito della lega: non serve più mandarlo.</p>';
+  const due = m.date - NOW < 12 * 3600e3;
+  const txt = due
+    ? `Tocca alla squadra di casa: entro 24 ore dalla gara a <b>${RES_MAIL}</b>, con in copia la squadra avversaria. La mail si apre già compilata: mancano risultato e parziali (in alternativa si può allegare la foto del referto).`
+    : `Giocate in casa: dopo la partita il risultato lo manda la vostra squadra, entro 24 ore, a <b>${RES_MAIL}</b> con in copia la squadra avversaria. La bozza è già pronta: mancano solo risultato e parziali (o la foto del referto).`;
+  return `<div class="send${due ? '' : ' soft'}"><span class="eyebrow">${due ? 'Risultato da comunicare' : 'Mail del risultato'}</span><p>${txt}${/autoarbitrat/i.test(m.g.tip) ? ' Gara auto-arbitrata: vanno allegate anche le distinte firmate.' : ''}</p>
+<div class="btns"><a class="btn${due ? ' primary' : ''}" href="${esc(resultMail(m))}">${ICON.mail}${due ? 'Prepara la mail' : 'Bozza della mail'}</a>${m.num ? `<button type="button" class="btn" data-act="copy-num" data-id="${m.id}">Copia numero gara</button>` : ''}</div></div>`;
 }
 function numRow(m) {
   if (!m.num) return '';
