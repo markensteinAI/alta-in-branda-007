@@ -215,7 +215,6 @@ function gcalUrl(m) {
 const ICON = {
   pin: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0113 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/></svg>',
   cal: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v4M10 15h4"/></svg>',
-  mail: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M4 7l8 6 8-6"/></svg>',
   vs: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V11M9 20V5M15 20v-6M20 20V8"/></svg>',
   route: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19l14-14M11 5h8v8"/></svg>',
   dl: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>'
@@ -354,8 +353,6 @@ function viewTeam() {
 </section>`;
 
   h += '<div class="grid">';
-  const pend = ms.filter(sendDue).filter(m => m.date <= NOW).pop();
-  if (pend) h += `<section class="card span-12 send-card" aria-label="Risultato da comunicare"><div class="card-h"><span class="eyebrow">Giornata ${pend.giornata} · ${esc(fD.format(pend.date))} · ${esc(TEAM[pend.h].short)} – ${esc(TEAM[pend.a].short)}</span>${pend.num ? `<span class="tag">${esc(pend.num)}</span>` : ''}</div>${sendBlock(pend)}<p class="legend">Se l’avete già mandato, questo riquadro sparisce quando il risultato compare sul sito della lega.</p></section>`;
   if (next) {
     const side = tt => `<button type="button" class="nx-team${tt === MY ? ' me' : ''}" data-t="${tt}"><span class="nm">${esc(TEAM[tt].short)}</span>${teamMeta(tt)}${tt === next.h ? '<span class="tag home">Casa</span>' : ''}</button>`;
     const p = PAL[next.pal];
@@ -796,7 +793,7 @@ ${m.rinv ? `<p class="note">Data originale ${esc(fD.format(m.orig))} ore ${fT(m.
 ${m.venueChanged && PAL[m.origPal] ? `<p class="note">Palestra cambiata rispetto al calendario: prevista ${esc(PAL[m.origPal].name)}, ${esc(PAL[m.origPal].com)}.</p>` : ''}
 ${venueBlock(m)}
 ${numRow(m)}
-<div class="btns">${p ? `<a class="btn primary" href="${mapsUrl(p)}" target="_blank" rel="noopener">${ICON.route}Indicazioni</a>` : ''}${!r && m.date > NOW ? `<a class="btn" href="${gcalUrl(m)}" target="_blank" rel="noopener">${ICON.cal}Google Calendar</a>` : ''}<button type="button" class="btn" data-act="sfida" data-id="${m.id}">${ICON.vs}${r ? 'Confronto squadre' : 'Anteprima sfida'}</button></div>${sendBlock(m)}</div>`;
+<div class="btns">${p ? `<a class="btn primary" href="${mapsUrl(p)}" target="_blank" rel="noopener">${ICON.route}Indicazioni</a>` : ''}${!r && m.date > NOW ? `<a class="btn" href="${gcalUrl(m)}" target="_blank" rel="noopener">${ICON.cal}Google Calendar</a>` : ''}<button type="button" class="btn" data-act="sfida" data-id="${m.id}">${ICON.vs}${r ? 'Confronto squadre' : 'Anteprima sfida'}</button></div></div>`;
   if (other.length) h += `<div class="card"><div class="card-h"><h3>${m.giornata < other[0].giornata ? 'Ritorno' : 'Andata'}</h3></div><div class="mlist">${other.map(x => matchRow(x, { giornata: true })).join('')}</div></div>`;
   openSheet(h, 'Partita ' + TEAM[m.h].short + ' – ' + TEAM[m.a].short);
 }
@@ -816,39 +813,7 @@ ${HOSTED ? `<div class="btns">${calButton(t)}</div>` : ''}
   openSheet(h, 'Squadra ' + T.short);
 }
 
-/* ---------- numero gara e mail del risultato ---------- */
-const RES_MAIL = 'risultativolleycup@gmail.com';
-const dmyS = d => `${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()}`;
-function resultMail(m) {
-  const g = m.g, camp = CAMP[g.cid].name;
-  const subj = `${camp} – ${g.name}${m.num ? ' – gara ' + m.num : ''}`;
-  const lines = [
-    `Numero gara: ${m.num || ''}`,
-    `${camp} – ${g.name} – giornata ${m.giornata}`,
-    `${TEAM[m.h].name} – ${TEAM[m.a].name}`,
-    `Giocata il ${dmyS(m.date)} alle ${fT(m.date)}`,
-    '',
-    m.res ? `Risultato finale (set): ${m.res.sh} – ${m.res.sa}` : 'Risultato finale (set): __ – __',
-    m.res && m.res.sets.length ? `Parziali: ${m.res.sets.map(x => x.join('-')).join('  ')}` : 'Parziali: __-__  __-__  __-__  __-__  __-__'
-  ];
-  if (/autoarbitrat/i.test(g.tip)) lines.push('', 'In allegato le distinte gara firmate di entrambe le squadre.');
-  return `mailto:${RES_MAIL}?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(lines.join('\r\n'))}`;
-}
-const sendDue = m => m.h === MY && !m.res && m.date - NOW < 12 * 3600e3 && NOW - m.date < 7 * DAY;
-/* bozza della mail del risultato: sempre disponibile per le partite in casa della squadra scelta ancora senza risultato;
-   evidenziata (gialla) dal giorno della gara, quando va mandata */
-function sendBlock(m) {
-  if (!involves(m, MY)) return '';
-  if (m.h !== MY) return m.res ? '' : `<p class="small muted">In trasferta: il risultato lo comunica la squadra di casa, ${esc(TEAM[m.h].short)}.</p>`;
-  if (m.res) return `<div class="send soft"><span class="eyebrow">Mail del risultato</span><p>Il risultato di questa partita è già registrato sul sito della lega, quindi non serve mandarlo. Se c’è da correggere qualcosa, la bozza qui sotto ha già risultato e parziali come risultano oggi.</p>
-<div class="btns"><a class="btn" href="${esc(resultMail(m))}">${ICON.mail}Bozza della mail</a>${m.num ? `<button type="button" class="btn" data-act="copy-num" data-id="${m.id}">Copia numero gara</button>` : ''}</div></div>`;
-  const due = m.date - NOW < 12 * 3600e3;
-  const txt = due
-    ? `Tocca alla squadra di casa: entro 24 ore dalla gara a <b>${RES_MAIL}</b>, con in copia la squadra avversaria. La mail si apre già compilata: mancano risultato e parziali (in alternativa si può allegare la foto del referto).`
-    : `Giocate in casa: dopo la partita il risultato lo manda la vostra squadra, entro 24 ore, a <b>${RES_MAIL}</b> con in copia la squadra avversaria. La bozza è già pronta: mancano solo risultato e parziali (o la foto del referto).`;
-  return `<div class="send${due ? '' : ' soft'}"><span class="eyebrow">${due ? 'Risultato da comunicare' : 'Mail del risultato'}</span><p>${txt}${/autoarbitrat/i.test(m.g.tip) ? ' Gara auto-arbitrata: vanno allegate anche le distinte firmate.' : ''}</p>
-<div class="btns"><a class="btn${due ? ' primary' : ''}" href="${esc(resultMail(m))}">${ICON.mail}${due ? 'Prepara la mail' : 'Bozza della mail'}</a>${m.num ? `<button type="button" class="btn" data-act="copy-num" data-id="${m.id}">Copia numero gara</button>` : ''}</div></div>`;
-}
+/* ---------- numero gara ---------- */
 function numRow(m) {
   if (!m.num) return '';
   return `<div class="kv"><span>Numero gara</span><span class="numv"><b class="mono">${esc(m.num)}</b><button type="button" class="link-btn" data-act="copy-num" data-id="${m.id}">Copia</button></span></div>`;
