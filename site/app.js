@@ -467,15 +467,40 @@ function trendChart(g, teams, brief) {
 }
 
 /* ---------- vista: classifica ---------- */
+/* spiegazione dei pari punti: per ogni coppia vicina in classifica con gli stessi punti, il primo criterio che le separa */
+const TIE = [
+  { col: 'v', f: r => r.v, fmt: r => String(r.v), name: 'partite vinte', same: r => `le stesse vittorie (${r.v})` },
+  { col: 'qs', f: r => q(r.sv, r.sp), fmt: r => ratio(r.sv, r.sp), name: 'quoziente set', same: () => 'lo stesso quoziente set' },
+  { col: 'dp', f: r => r.pv - r.pp, fmt: r => sgnI(r.pv - r.pp), name: 'differenza punti', same: () => 'la stessa differenza punti' }
+];
+const listIt = a => a.length > 1 ? a.slice(0, -1).join(', ') + ' e ' + a[a.length - 1] : (a[0] || '');
+const sgnI = v => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v);
+function tieInfo(off) {
+  const mark = {}, notes = [], nm = t => `<b>${esc(TEAM[t].short)}</b>`;
+  for (let i = 0; i + 1 < off.length; i++) {
+    const a = off[i], b = off[i + 1];
+    if (a.pts !== b.pts || (!a.g && !b.g)) continue;
+    const same = []; let dec = null;
+    for (const c of TIE) { if (Math.abs(c.f(a) - c.f(b)) > 1e-9) { dec = c; break; } same.push(c); }
+    const head = `${nm(a.t)} e ${nm(b.t)} hanno ${a.pts} ${a.pts === 1 ? 'punto' : 'punti'}${same.length ? ', ' + listIt(same.map(c => c.same(a))) : ''}`;
+    if (dec && dec.f(a) > dec.f(b)) {
+      [a.t, b.t].forEach(t => (mark[t] = mark[t] || new Set()).add(dec.col));
+      notes.push(`${head}: ${nm(a.t)} è davanti per ${dec.name}, ${dec.fmt(a)} contro ${dec.fmt(b)}.`);
+    } else notes.push(`${head}: l’ordine è quello del sito della lega.`);
+  }
+  return { mark, notes };
+}
 function viewTable() {
   const g = GIR[SEL], off = offOf(g), S = compOf(g);
-  const tot = g.matches.length, pl = g.matches.filter(m => m.res).length;
+  const tot = g.matches.length, pl = g.matches.filter(m => m.res).length, tie = tieInfo(off);
+  const tb = (t, col) => tie.mark[t] && tie.mark[t].has(col) ? ' tb' : '';
   let h = `<div class="view-head"><div><span class="eyebrow">${esc(ctxName(g))}</span><h2>Classifica</h2><p class="sub">${pl} di ${tot} partite giocate</p></div><button type="button" class="btn only-narrow" data-act="tfull">${tFull ? 'Meno colonne' : 'Tutte le colonne'}</button></div>`;
   h += `<section class="card"><div class="tscroll"><table class="std cls${tFull ? ' full' : ''}"><thead><tr>
-<th class="pos sticky">#</th><th class="l sticky2">Squadra</th><th>Pt</th><th>G</th><th>V</th><th>P</th><th class="x">Set V</th><th class="x">Set P</th><th class="x">Q. set</th><th class="x">Punti F</th><th class="x">Punti S</th><th class="x">Q. punti</th><th class="l x">Forma</th></tr></thead><tbody>
-${off.map(r => `<tr class="clk${r.t === MY ? ' mine' : ''}" data-t="${r.t}"><td class="pos sticky">${r.pos}</td><td class="l team sticky2"><span class="tn">${esc(TEAM[r.t].short)}</span><span class="tform">${formHTML(S[r.t]?.res || [])}</span></td><td class="pts">${r.pts}</td><td>${r.g}</td><td>${r.v}</td><td>${r.p}</td><td class="x">${r.sv}</td><td class="x">${r.sp}</td><td class="x">${ratio(r.sv, r.sp)}</td><td class="x">${r.pv}</td><td class="x">${r.pp}</td><td class="x">${ratio(r.pv, r.pp)}</td><td class="l x">${formHTML(S[r.t]?.res || [])}</td></tr>`).join('')}
+<th class="pos sticky">#</th><th class="l sticky2">Squadra</th><th>Pt</th><th>G</th><th>V</th><th>P</th><th class="x">Set V</th><th class="x">Set P</th><th class="x">Q. set</th><th class="x">Punti F</th><th class="x">Punti S</th><th class="x">Diff. punti</th><th class="x">Q. punti</th><th class="l x">Forma</th></tr></thead><tbody>
+${off.map(r => `<tr class="clk${r.t === MY ? ' mine' : ''}" data-t="${r.t}"><td class="pos sticky">${r.pos}</td><td class="l team sticky2"><span class="tn">${esc(TEAM[r.t].short)}</span><span class="tform">${formHTML(S[r.t]?.res || [])}</span></td><td class="pts">${r.pts}</td><td>${r.g}</td><td class="${tb(r.t, 'v').trim()}">${r.v}</td><td>${r.p}</td><td class="x">${r.sv}</td><td class="x">${r.sp}</td><td class="x${tb(r.t, 'qs')}">${ratio(r.sv, r.sp)}</td><td class="x">${r.pv}</td><td class="x">${r.pp}</td><td class="x${tb(r.t, 'dp')}">${sgnI(r.pv - r.pp)}</td><td class="x">${ratio(r.pv, r.pp)}</td><td class="l x">${formHTML(S[r.t]?.res || [])}</td></tr>`).join('')}
 </tbody></table></div>
-<p class="legend">${esc(tipPretty(g.tip))}. ${g.fixed ? 'Formula a set fissi: si giocano da 3 a 5 set e ogni set vinto vale 1 punto in classifica.' : 'Al meglio dei 5 set: 3 punti per il 3-0 e il 3-1, 2 punti per il 3-2, 1 punto a chi perde 2-3.'} Q. set = set vinti diviso set persi; Q. punti = punti fatti diviso punti subiti. Ordine come da classifica ufficiale. Tocca una squadra per la sua scheda.</p></section>`;
+${tie.notes.length ? `<div class="ties"><span class="eyebrow">A pari punti</span><ul>${tie.notes.map(n => `<li>${n}</li>`).join('')}</ul><p class="small muted">Dopo i punti contano, nell’ordine: partite vinte, quoziente set, differenza punti.${tFull ? '' : '<span class="only-narrow"> Con «Tutte le colonne» vedi in tabella il dato che decide, evidenziato.</span>'}</p></div>` : ''}
+<p class="legend">${esc(tipPretty(g.tip))}. ${g.fixed ? 'Formula a set fissi: si giocano da 3 a 5 set e ogni set vinto vale 1 punto in classifica.' : 'Al meglio dei 5 set: 3 punti per il 3-0 e il 3-1, 2 punti per il 3-2, 1 punto a chi perde 2-3.'} Q. set = set vinti diviso set persi; Diff. punti = punti fatti meno punti subiti; Q. punti = punti fatti diviso punti subiti. Ordine come da classifica ufficiale: a pari punti contano partite vinte, quoziente set e differenza punti (il quoziente punti non conta). Tocca una squadra per la sua scheda.</p></section>`;
   // prossime e ultime
   const up = g.matches.filter(m => !m.res && m.date > NOW).sort(byDate).slice(0, 6);
   const rec = g.matches.filter(m => m.res).sort((a, b) => b.date - a.date).slice(0, 6);
