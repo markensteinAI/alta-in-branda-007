@@ -26,111 +26,123 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:ivl-1070-1-541-1079@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261028T214000
 DTEND;TZID=Europe/Rome:20261028T234000
 SUMMARY:SUPERTEAM 3–0 TVS
 LOCATION:Palestra Liceo Virgilio\, Piazza Fratelli Bandiera\, Milano
-DESCRIPTION:TOP misto · Girone D · giornata 1 · in trasferta
+DESCRIPTION:TOP misto · Girone D · giornata 1 · in trasferta · gara TO
+ P GIR.D01
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1070-2-1079-1660@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261105T213000
 DTEND;TZID=Europe/Rome:20261105T233000
 SUMMARY:TVS 0–3 I SOLITI IGNOTI
 LOCATION:Tensostruttura\, Via A. Modigliani 7\, Segrate
-DESCRIPTION:TOP misto · Girone D · giornata 2 · in casa
+DESCRIPTION:TOP misto · Girone D · giornata 2 · in casa · gara TOP GIR
+ .D04
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1070-3-1079-982@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261112T213000
 DTEND;TZID=Europe/Rome:20261112T233000
 SUMMARY:TVS – DASA SPIKE VOLLEY
 LOCATION:Tensostruttura\, Via A. Modigliani 7\, Segrate
-DESCRIPTION:TOP misto · Girone D · giornata 3 · in casa
+DESCRIPTION:TOP misto · Girone D · giornata 3 · in casa · gara TOP GIR
+ .D07
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1070-4-1451-1079@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261119T210000
 DTEND;TZID=Europe/Rome:20261119T230000
 SUMMARY:SPORTING MILANO 2 – TVS
 LOCATION:Sporting Club Milano 2\, Strada di Olgia Vecchia\, Segrate
-DESCRIPTION:TOP misto · Girone D · giornata 4 · in trasferta
+DESCRIPTION:TOP misto · Girone D · giornata 4 · in trasferta · gara TO
+ P GIR.D09
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1070-5-1079-614@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261126T213000
 DTEND;TZID=Europe/Rome:20261126T233000
 SUMMARY:TVS – ZERONOMADE
 LOCATION:Tensostruttura\, Via A. Modigliani 7\, Segrate
-DESCRIPTION:TOP misto · Girone D · giornata 5 · in casa
+DESCRIPTION:TOP misto · Girone D · giornata 5 · in casa · gara TOP GIR
+ .D13
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1070-7-1195-1079@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261209T213000
 DTEND;TZID=Europe/Rome:20261209T233000
 SUMMARY:PM SPORT – TVS
 LOCATION:Palazzetto dello Sport\, Via Stella Polare 11/A\, Mediglia
-DESCRIPTION:TOP misto · Girone D · giornata 7 · in trasferta
+DESCRIPTION:TOP misto · Girone D · giornata 7 · in trasferta · gara TO
+ P GIR.D18
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1070-9-1660-1079@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270111T213000
 DTEND;TZID=Europe/Rome:20270111T233000
 SUMMARY:I SOLITI IGNOTI – TVS
 LOCATION:Palestra scuola elementare\, Via Galileo\, Vignate
-DESCRIPTION:TOP misto · Girone D · giornata 9 · in trasferta
+DESCRIPTION:TOP misto · Girone D · giornata 9 · in trasferta · gara TO
+ P GIR.D25
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1070-10-982-1079@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270121T211500
 DTEND;TZID=Europe/Rome:20270121T231500
 SUMMARY:DASA SPIKE VOLLEY – TVS
 LOCATION:Istituto Aurora Bachelet\, Via Masaccio\, 4\, Cernusco sul Navigl
  io
-DESCRIPTION:TOP misto · Girone D · giornata 10 · in trasferta
+DESCRIPTION:TOP misto · Girone D · giornata 10 · in trasferta · gara T
+ OP GIR.D28
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1070-11-1079-1451@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270128T213000
 DTEND;TZID=Europe/Rome:20270128T233000
 SUMMARY:TVS – SPORTING MILANO 2
 LOCATION:Tensostruttura\, Via A. Modigliani 7\, Segrate
-DESCRIPTION:TOP misto · Girone D · giornata 11 · in casa
+DESCRIPTION:TOP misto · Girone D · giornata 11 · in casa · gara TOP GI
+ R.D30
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1070-12-614-1079@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270201T211500
 DTEND;TZID=Europe/Rome:20270201T231500
 SUMMARY:ZERONOMADE – TVS
 LOCATION:Palestra IC Albert Schweitzer\, Via San Rocco 4/A\, Segrate
-DESCRIPTION:TOP misto · Girone D · giornata 12 · in trasferta
+DESCRIPTION:TOP misto · Girone D · giornata 12 · in trasferta · gara T
+ OP GIR.D34
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1070-8-1079-541@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270204T213000
 DTEND;TZID=Europe/Rome:20270204T233000
 SUMMARY:TVS – SUPERTEAM
 LOCATION:Tensostruttura\, Via A. Modigliani 7\, Segrate
-DESCRIPTION:TOP misto · Girone D · giornata 8 · in casa
+DESCRIPTION:TOP misto · Girone D · giornata 8 · in casa · gara TOP GIR
+ .D22
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1070-14-1079-1195@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270218T213000
 DTEND;TZID=Europe/Rome:20270218T233000
 SUMMARY:TVS – PM SPORT
 LOCATION:Tensostruttura\, Via A. Modigliani 7\, Segrate
-DESCRIPTION:TOP misto · Girone D · giornata 14 · in casa
+DESCRIPTION:TOP misto · Girone D · giornata 14 · in casa · gara TOP GI
+ R.D39
 END:VEVENT
 END:VCALENDAR

@@ -26,131 +26,145 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:ivl-1071-2-547-1672@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261105T214500
 DTEND;TZID=Europe/Rome:20261105T234500
 SUMMARY:NEW EVERGREEN 3–0 FUCILATA
 LOCATION:Palestra Robbiolo\, Via Indipendenza Angolo Via Gramsci\, Buccina
  sco
-DESCRIPTION:TOP B misto · Girone A · giornata 2 · in trasferta
+DESCRIPTION:TOP B misto · Girone A · giornata 2 · in trasferta · gara 
+ TOP/B-GIR.A05
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1071-3-594-1672@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261111T212000
 DTEND;TZID=Europe/Rome:20261111T232000
 SUMMARY:BAGGIO WEST VOLLEY – FUCILATA
 LOCATION:Pal. Monaca\, Via Vespucci\, 11\, Cesano Boscone
-DESCRIPTION:TOP B misto · Girone A · giornata 3 · in trasferta
+DESCRIPTION:TOP B misto · Girone A · giornata 3 · in trasferta · gara 
+ TOP/B-GIR.A11
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1071-5-1173-1672@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261123T211500
 DTEND;TZID=Europe/Rome:20261123T231500
 SUMMARY:BRADIBEER – FUCILATA
 LOCATION:Centro Sportivo Gallaratese\, Via Natta\, 11\, Milano
-DESCRIPTION:TOP B misto · Girone A · giornata 5 · in trasferta
+DESCRIPTION:TOP B misto · Girone A · giornata 5 · in trasferta · gara 
+ TOP/B-GIR.A18
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1071-1-1672-1580@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261129T200000
 DTEND;TZID=Europe/Rome:20261129T220000
 SUMMARY:FUCILATA – SKADOOSH LUDOSPORT
 LOCATION:Palestra Bramante\, Via Valletta Fogliano 59\, Vigevano
-DESCRIPTION:TOP B misto · Girone A · giornata 1 · in casa
+DESCRIPTION:TOP B misto · Girone A · giornata 1 · in casa · gara TOP/B
+ -GIR.A03
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1071-6-1191-1672@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261204T213000
 DTEND;TZID=Europe/Rome:20261204T233000
 SUMMARY:JURASSICI 2.0 – FUCILATA
 LOCATION:Palestra Comunale\, Via Quasimodo\, Zibido San Giacomo
-DESCRIPTION:TOP B misto · Girone A · giornata 6 · in trasferta
+DESCRIPTION:TOP B misto · Girone A · giornata 6 · in trasferta · gara 
+ TOP/B-GIR.A22
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1071-7-1672-618@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261213T200000
 DTEND;TZID=Europe/Rome:20261213T220000
 SUMMARY:FUCILATA – X TEAM
 LOCATION:Palestra Bramante\, Via Valletta Fogliano 59\, Vigevano
-DESCRIPTION:TOP B misto · Girone A · giornata 7 · in casa
+DESCRIPTION:TOP B misto · Girone A · giornata 7 · in casa · gara TOP/B
+ -GIR.A27
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1071-8-1672-547@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261220T200000
 DTEND;TZID=Europe/Rome:20261220T220000
 SUMMARY:FUCILATA – NEW EVERGREEN
 LOCATION:Palestra Bramante\, Via Valletta Fogliano 59\, Vigevano
-DESCRIPTION:TOP B misto · Girone A · giornata 8 · in casa
+DESCRIPTION:TOP B misto · Girone A · giornata 8 · in casa · gara TOP/B
+ -GIR.A33
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1071-4-1672-1458@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270110T200000
 DTEND;TZID=Europe/Rome:20270110T220000
 SUMMARY:FUCILATA – BLACK CATS 2.0
 LOCATION:Palestra Bramante\, Via Valletta Fogliano 59\, Vigevano
-DESCRIPTION:TOP B misto · Girone A · giornata 4 · in casa
+DESCRIPTION:TOP B misto · Girone A · giornata 4 · in casa · gara TOP/B
+ -GIR.A15
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1071-9-1580-1672@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270117T151500
 DTEND;TZID=Europe/Rome:20270117T171500
 SUMMARY:SKADOOSH LUDOSPORT – FUCILATA
 LOCATION:Palestra Sc. Elementare Pisa\, Via Ugo Pisa 3\, Milano
-DESCRIPTION:TOP B misto · Girone A · giornata 9 · in trasferta
+DESCRIPTION:TOP B misto · Girone A · giornata 9 · in trasferta · gara 
+ TOP/B-GIR.A31
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1071-10-1458-1672@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270122T214500
 DTEND;TZID=Europe/Rome:20270122T234500
 SUMMARY:BLACK CATS 2.0 – FUCILATA
 LOCATION:Sc.El. Giacosa\, Via Fogazzaro (di fronte civico 8)\, Trezzano su
  l Naviglio
-DESCRIPTION:TOP B misto · Girone A · giornata 10 · in trasferta
+DESCRIPTION:TOP B misto · Girone A · giornata 10 · in trasferta · gara
+  TOP/B-GIR.A43
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1071-11-1672-594@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270131T200000
 DTEND;TZID=Europe/Rome:20270131T220000
 SUMMARY:FUCILATA – BAGGIO WEST VOLLEY
 LOCATION:Palestra Bramante\, Via Valletta Fogliano 59\, Vigevano
-DESCRIPTION:TOP B misto · Girone A · giornata 11 · in casa
+DESCRIPTION:TOP B misto · Girone A · giornata 11 · in casa · gara TOP/
+ B-GIR.A39
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1071-12-1672-1173@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270207T200000
 DTEND;TZID=Europe/Rome:20270207T220000
 SUMMARY:FUCILATA – BRADIBEER
 LOCATION:Palestra Bramante\, Via Valletta Fogliano 59\, Vigevano
-DESCRIPTION:TOP B misto · Girone A · giornata 12 · in casa
+DESCRIPTION:TOP B misto · Girone A · giornata 12 · in casa · gara TOP/
+ B-GIR.A46
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1071-13-1672-1191@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270214T200000
 DTEND;TZID=Europe/Rome:20270214T220000
 SUMMARY:FUCILATA – JURASSICI 2.0
 LOCATION:Palestra Bramante\, Via Valletta Fogliano 59\, Vigevano
-DESCRIPTION:TOP B misto · Girone A · giornata 13 · in casa
+DESCRIPTION:TOP B misto · Girone A · giornata 13 · in casa · gara TOP/
+ B-GIR.A50
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1071-14-618-1672@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270216T213000
 DTEND;TZID=Europe/Rome:20270216T233000
 SUMMARY:X TEAM – FUCILATA
 LOCATION:Pala Morona\, Via Morona (ang. Via Tintoretto)\, Trezzano sul Nav
  iglio
-DESCRIPTION:TOP B misto · Girone A · giornata 14 · in trasferta
+DESCRIPTION:TOP B misto · Girone A · giornata 14 · in trasferta · gara
+  TOP/B-GIR.A55
 END:VEVENT
 END:VCALENDAR

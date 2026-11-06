@@ -26,117 +26,129 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:ivl-1069-2-598-1193@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261029T213000
 DTEND;TZID=Europe/Rome:20261029T233000
 SUMMARY:BB BAWI TEAM 0–3 RONDINELLA
 LOCATION:Liceo Leonardo Da Vinci\, Via Leonardo da Vinci\, 1\, Cologno Mon
  zese
-DESCRIPTION:TOP misto · Girone C · giornata 2 · in trasferta
+DESCRIPTION:TOP misto · Girone C · giornata 2 · in trasferta · gara TO
+ P GIR.C02
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1069-3-1193-616@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261115T204500
 DTEND;TZID=Europe/Rome:20261115T224500
 SUMMARY:RONDINELLA – T.S.O. ROBBIANO
 LOCATION:Palestra Scuola Media Marelli\, Via Le Matteotti 425 Ang. Via Pod
  gora\, Sesto San Giovanni
-DESCRIPTION:TOP misto · Girone C · giornata 3 · in casa
+DESCRIPTION:TOP misto · Girone C · giornata 3 · in casa · gara TOP GIR
+ .C06
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1069-4-1193-555@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261122T204500
 DTEND;TZID=Europe/Rome:20261122T224500
 SUMMARY:RONDINELLA – PALLAVOGLIARE
 LOCATION:Palestra Scuola Media Marelli\, Via Le Matteotti 425 Ang. Via Pod
  gora\, Sesto San Giovanni
-DESCRIPTION:TOP misto · Girone C · giornata 4 · in casa
+DESCRIPTION:TOP misto · Girone C · giornata 4 · in casa · gara TOP GIR
+ .C10
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1069-5-1193-509@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261129T204500
 DTEND;TZID=Europe/Rome:20261129T224500
 SUMMARY:RONDINELLA – ORATORIO SANTA VALERIA
 LOCATION:Palestra Scuola Media Marelli\, Via Le Matteotti 425 Ang. Via Pod
  gora\, Sesto San Giovanni
-DESCRIPTION:TOP misto · Girone C · giornata 5 · in casa
+DESCRIPTION:TOP misto · Girone C · giornata 5 · in casa · gara TOP GIR
+ .C12
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1069-6-606-1193@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261202T213000
 DTEND;TZID=Europe/Rome:20261202T233000
 SUMMARY:US ACLI CINISELLO CRAZY – RONDINELLA
 LOCATION:Palestra Sc. Media MARCONI\, Via Marconi 46\, Cinisello Balsamo
-DESCRIPTION:TOP misto · Girone C · giornata 6 · in trasferta
+DESCRIPTION:TOP misto · Girone C · giornata 6 · in trasferta · gara TO
+ P GIR.C17
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1069-7-1193-1196@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261213T204500
 DTEND;TZID=Europe/Rome:20261213T224500
 SUMMARY:RONDINELLA – SAN CARLO VOLLEY
 LOCATION:Palestra Scuola Media Marelli\, Via Le Matteotti 425 Ang. Via Pod
  gora\, Sesto San Giovanni
-DESCRIPTION:TOP misto · Girone C · giornata 7 · in casa
+DESCRIPTION:TOP misto · Girone C · giornata 7 · in casa · gara TOP GIR
+ .C18
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1069-9-1193-598@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270110T204500
 DTEND;TZID=Europe/Rome:20270110T224500
 SUMMARY:RONDINELLA – BB BAWI TEAM
 LOCATION:Palestra Scuola Media Marelli\, Via Le Matteotti 425 Ang. Via Pod
  gora\, Sesto San Giovanni
-DESCRIPTION:TOP misto · Girone C · giornata 9 · in casa
+DESCRIPTION:TOP misto · Girone C · giornata 9 · in casa · gara TOP GIR
+ .C23
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1069-12-1193-606@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270117T204500
 DTEND;TZID=Europe/Rome:20270117T224500
 SUMMARY:RONDINELLA – US ACLI CINISELLO CRAZY
 LOCATION:Palestra Scuola Media Marelli\, Via Le Matteotti 425 Ang. Via Pod
  gora\, Sesto San Giovanni
-DESCRIPTION:TOP misto · Girone C · giornata 12 · in casa
+DESCRIPTION:TOP misto · Girone C · giornata 12 · in casa · gara TOP GI
+ R.C38
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1069-10-555-1193@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270119T213500
 DTEND;TZID=Europe/Rome:20270119T233500
 SUMMARY:PALLAVOGLIARE – RONDINELLA
 LOCATION:Palestra San Biagio\, Via Manara 10\, Monza
-DESCRIPTION:TOP misto · Girone C · giornata 10 · in trasferta
+DESCRIPTION:TOP misto · Girone C · giornata 10 · in trasferta · gara T
+ OP GIR.C31
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1069-11-616-1193@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270129T213000
 DTEND;TZID=Europe/Rome:20270129T233000
 SUMMARY:T.S.O. ROBBIANO – RONDINELLA
 LOCATION:Oratorio San Luigi\, Via Don Pifferi\, 18\, Robbiano di Giussano
-DESCRIPTION:TOP misto · Girone C · giornata 11 · in trasferta
+DESCRIPTION:TOP misto · Girone C · giornata 11 · in trasferta · gara T
+ OP GIR.C27
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1069-13-1196-1193@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270214T210000
 DTEND;TZID=Europe/Rome:20270214T230000
 SUMMARY:SAN CARLO VOLLEY – RONDINELLA
 LOCATION:Palestra Scuola Media Sabin\, Via Tazzoli Angolo Via Iseo\, Monza
-DESCRIPTION:TOP misto · Girone C · giornata 13 · in trasferta
+DESCRIPTION:TOP misto · Girone C · giornata 13 · in trasferta · gara T
+ OP GIR.C39
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1069-14-509-1193@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270219T213000
 DTEND;TZID=Europe/Rome:20270219T233000
 SUMMARY:ORATORIO SANTA VALERIA – RONDINELLA
 LOCATION:Oratorio Santa Valeria\, Via Wagner\, 85\, Seregno
-DESCRIPTION:TOP misto · Girone C · giornata 14 · in trasferta
+DESCRIPTION:TOP misto · Girone C · giornata 14 · in trasferta · gara T
+ OP GIR.C33
 END:VEVENT
 END:VCALENDAR

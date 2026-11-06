@@ -26,116 +26,128 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:ivl-1070-8-614-982@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261026T211500
 DTEND;TZID=Europe/Rome:20261026T231500
 SUMMARY:ZERONOMADE 3–0 DASA SPIKE VOLLEY
 LOCATION:Palestra IC Albert Schweitzer\, Via San Rocco 4/A\, Segrate
-DESCRIPTION:TOP misto · Girone D · giornata 8 · in trasferta
+DESCRIPTION:TOP misto · Girone D · giornata 8 · in trasferta · gara TO
+ P GIR.D21
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1070-2-1451-982@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261105T210000
 DTEND;TZID=Europe/Rome:20261105T230000
 SUMMARY:SPORTING MILANO 2 1–3 DASA SPIKE VOLLEY
 LOCATION:Sporting Club Milano 2\, Strada di Olgia Vecchia\, Segrate
-DESCRIPTION:TOP misto · Girone D · giornata 2 · in trasferta
+DESCRIPTION:TOP misto · Girone D · giornata 2 · in trasferta · gara TO
+ P GIR.D03
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1070-3-1079-982@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261112T213000
 DTEND;TZID=Europe/Rome:20261112T233000
 SUMMARY:TVS – DASA SPIKE VOLLEY
 LOCATION:Tensostruttura\, Via A. Modigliani 7\, Segrate
-DESCRIPTION:TOP misto · Girone D · giornata 3 · in trasferta
+DESCRIPTION:TOP misto · Girone D · giornata 3 · in trasferta · gara TO
+ P GIR.D07
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1070-4-982-1195@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261126T211500
 DTEND;TZID=Europe/Rome:20261126T231500
 SUMMARY:DASA SPIKE VOLLEY – PM SPORT
 LOCATION:Istituto Aurora Bachelet\, Via Masaccio\, 4\, Cernusco sul Navigl
  io
-DESCRIPTION:TOP misto · Girone D · giornata 4 · in casa
+DESCRIPTION:TOP misto · Girone D · giornata 4 · in casa · gara TOP GIR
+ .D10
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1070-6-982-541@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261203T211500
 DTEND;TZID=Europe/Rome:20261203T231500
 SUMMARY:DASA SPIKE VOLLEY – SUPERTEAM
 LOCATION:Istituto Aurora Bachelet\, Via Masaccio\, 4\, Cernusco sul Navigl
  io
-DESCRIPTION:TOP misto · Girone D · giornata 6 · in casa
+DESCRIPTION:TOP misto · Girone D · giornata 6 · in casa · gara TOP GIR
+ .D16
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1070-1-982-614@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261217T211500
 DTEND;TZID=Europe/Rome:20261217T231500
 SUMMARY:DASA SPIKE VOLLEY – ZERONOMADE
 LOCATION:Istituto Aurora Bachelet\, Via Masaccio\, 4\, Cernusco sul Navigl
  io
-DESCRIPTION:TOP misto · Girone D · giornata 1 · in casa
+DESCRIPTION:TOP misto · Girone D · giornata 1 · in casa · gara TOP GIR
+ .D00
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1070-9-982-1451@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270114T211500
 DTEND;TZID=Europe/Rome:20270114T231500
 SUMMARY:DASA SPIKE VOLLEY – SPORTING MILANO 2
 LOCATION:Istituto Aurora Bachelet\, Via Masaccio\, 4\, Cernusco sul Navigl
  io
-DESCRIPTION:TOP misto · Girone D · giornata 9 · in casa
+DESCRIPTION:TOP misto · Girone D · giornata 9 · in casa · gara TOP GIR
+ .D24
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1070-10-982-1079@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270121T211500
 DTEND;TZID=Europe/Rome:20270121T231500
 SUMMARY:DASA SPIKE VOLLEY – TVS
 LOCATION:Istituto Aurora Bachelet\, Via Masaccio\, 4\, Cernusco sul Navigl
  io
-DESCRIPTION:TOP misto · Girone D · giornata 10 · in casa
+DESCRIPTION:TOP misto · Girone D · giornata 10 · in casa · gara TOP GI
+ R.D28
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1070-11-1195-982@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270127T213000
 DTEND;TZID=Europe/Rome:20270127T233000
 SUMMARY:PM SPORT – DASA SPIKE VOLLEY
 LOCATION:Palazzetto dello Sport\, Via Stella Polare 11/A\, Mediglia
-DESCRIPTION:TOP misto · Girone D · giornata 11 · in trasferta
+DESCRIPTION:TOP misto · Girone D · giornata 11 · in trasferta · gara T
+ OP GIR.D31
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1070-5-1660-982@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270201T213000
 DTEND;TZID=Europe/Rome:20270201T233000
 SUMMARY:I SOLITI IGNOTI – DASA SPIKE VOLLEY
 LOCATION:Palestra scuola elementare\, Via Galileo\, Vignate
-DESCRIPTION:TOP misto · Girone D · giornata 5 · in trasferta
+DESCRIPTION:TOP misto · Girone D · giornata 5 · in trasferta · gara TO
+ P GIR.D14
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1070-12-982-1660@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270204T211500
 DTEND;TZID=Europe/Rome:20270204T231500
 SUMMARY:DASA SPIKE VOLLEY – I SOLITI IGNOTI
 LOCATION:Istituto Aurora Bachelet\, Via Masaccio\, 4\, Cernusco sul Navigl
  io
-DESCRIPTION:TOP misto · Girone D · giornata 12 · in casa
+DESCRIPTION:TOP misto · Girone D · giornata 12 · in casa · gara TOP GI
+ R.D35
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1070-13-541-982@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270210T214000
 DTEND;TZID=Europe/Rome:20270210T234000
 SUMMARY:SUPERTEAM – DASA SPIKE VOLLEY
 LOCATION:Palestra Liceo Virgilio\, Piazza Fratelli Bandiera\, Milano
-DESCRIPTION:TOP misto · Girone D · giornata 13 · in trasferta
+DESCRIPTION:TOP misto · Girone D · giornata 13 · in trasferta · gara T
+ OP GIR.D37
 END:VEVENT
 END:VCALENDAR

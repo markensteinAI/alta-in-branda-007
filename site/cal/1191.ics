@@ -26,131 +26,145 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:ivl-1071-1-1173-1191@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261026T211500
 DTEND;TZID=Europe/Rome:20261026T231500
 SUMMARY:BRADIBEER 3–1 JURASSICI 2.0
 LOCATION:Centro Sportivo Gallaratese\, Via Natta\, 11\, Milano
-DESCRIPTION:TOP B misto · Girone A · giornata 1 · in trasferta
+DESCRIPTION:TOP B misto · Girone A · giornata 1 · in trasferta · gara 
+ TOP/B-GIR.A01
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1071-2-1191-594@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261106T213000
 DTEND;TZID=Europe/Rome:20261106T233000
 SUMMARY:JURASSICI 2.0 – BAGGIO WEST VOLLEY
 LOCATION:Palestra Comunale\, Via Quasimodo\, Zibido San Giacomo
-DESCRIPTION:TOP B misto · Girone A · giornata 2 · in casa
+DESCRIPTION:TOP B misto · Girone A · giornata 2 · in casa · gara TOP/B
+ -GIR.A06
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1071-3-1191-618@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261113T213000
 DTEND;TZID=Europe/Rome:20261113T233000
 SUMMARY:JURASSICI 2.0 – X TEAM
 LOCATION:Palestra Comunale\, Via Quasimodo\, Zibido San Giacomo
-DESCRIPTION:TOP B misto · Girone A · giornata 3 · in casa
+DESCRIPTION:TOP B misto · Girone A · giornata 3 · in casa · gara TOP/B
+ -GIR.A09
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1071-4-1580-1191@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261122T151500
 DTEND;TZID=Europe/Rome:20261122T171500
 SUMMARY:SKADOOSH LUDOSPORT – JURASSICI 2.0
 LOCATION:Palestra Sc. Elementare Pisa\, Via Ugo Pisa 3\, Milano
-DESCRIPTION:TOP B misto · Girone A · giornata 4 · in trasferta
+DESCRIPTION:TOP B misto · Girone A · giornata 4 · in trasferta · gara 
+ TOP/B-GIR.A12
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1071-5-1458-1191@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261127T214500
 DTEND;TZID=Europe/Rome:20261127T234500
 SUMMARY:BLACK CATS 2.0 – JURASSICI 2.0
 LOCATION:Sc.El. Giacosa\, Via Fogazzaro (di fronte civico 8)\, Trezzano su
  l Naviglio
-DESCRIPTION:TOP B misto · Girone A · giornata 5 · in trasferta
+DESCRIPTION:TOP B misto · Girone A · giornata 5 · in trasferta · gara 
+ TOP/B-GIR.A17
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1071-6-1191-1672@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261204T213000
 DTEND;TZID=Europe/Rome:20261204T233000
 SUMMARY:JURASSICI 2.0 – FUCILATA
 LOCATION:Palestra Comunale\, Via Quasimodo\, Zibido San Giacomo
-DESCRIPTION:TOP B misto · Girone A · giornata 6 · in casa
+DESCRIPTION:TOP B misto · Girone A · giornata 6 · in casa · gara TOP/B
+ -GIR.A22
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1071-7-547-1191@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261210T214500
 DTEND;TZID=Europe/Rome:20261210T234500
 SUMMARY:NEW EVERGREEN – JURASSICI 2.0
 LOCATION:Palestra Robbiolo\, Via Indipendenza Angolo Via Gramsci\, Buccina
  sco
-DESCRIPTION:TOP B misto · Girone A · giornata 7 · in trasferta
+DESCRIPTION:TOP B misto · Girone A · giornata 7 · in trasferta · gara 
+ TOP/B-GIR.A24
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1071-8-594-1191@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261216T212000
 DTEND;TZID=Europe/Rome:20261216T232000
 SUMMARY:BAGGIO WEST VOLLEY – JURASSICI 2.0
 LOCATION:Pal. Monaca\, Via Vespucci\, 11\, Cesano Boscone
-DESCRIPTION:TOP B misto · Girone A · giornata 8 · in trasferta
+DESCRIPTION:TOP B misto · Girone A · giornata 8 · in trasferta · gara 
+ TOP/B-GIR.A34
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1071-9-1191-1173@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270115T213000
 DTEND;TZID=Europe/Rome:20270115T233000
 SUMMARY:JURASSICI 2.0 – BRADIBEER
 LOCATION:Palestra Comunale\, Via Quasimodo\, Zibido San Giacomo
-DESCRIPTION:TOP B misto · Girone A · giornata 9 · in casa
+DESCRIPTION:TOP B misto · Girone A · giornata 9 · in casa · gara TOP/B
+ -GIR.A29
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1071-10-1191-1580@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270122T213000
 DTEND;TZID=Europe/Rome:20270122T233000
 SUMMARY:JURASSICI 2.0 – SKADOOSH LUDOSPORT
 LOCATION:Palestra Comunale\, Via Quasimodo\, Zibido San Giacomo
-DESCRIPTION:TOP B misto · Girone A · giornata 10 · in casa
+DESCRIPTION:TOP B misto · Girone A · giornata 10 · in casa · gara TOP/
+ B-GIR.A40
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1071-11-618-1191@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270126T213000
 DTEND;TZID=Europe/Rome:20270126T233000
 SUMMARY:X TEAM – JURASSICI 2.0
 LOCATION:Pala Morona\, Via Morona (ang. Via Tintoretto)\, Trezzano sul Nav
  iglio
-DESCRIPTION:TOP B misto · Girone A · giornata 11 · in trasferta
+DESCRIPTION:TOP B misto · Girone A · giornata 11 · in trasferta · gara
+  TOP/B-GIR.A37
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1071-12-1191-1458@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270205T213000
 DTEND;TZID=Europe/Rome:20270205T233000
 SUMMARY:JURASSICI 2.0 – BLACK CATS 2.0
 LOCATION:Palestra Comunale\, Via Quasimodo\, Zibido San Giacomo
-DESCRIPTION:TOP B misto · Girone A · giornata 12 · in casa
+DESCRIPTION:TOP B misto · Girone A · giornata 12 · in casa · gara TOP/
+ B-GIR.A45
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1071-13-1672-1191@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270214T200000
 DTEND;TZID=Europe/Rome:20270214T220000
 SUMMARY:FUCILATA – JURASSICI 2.0
 LOCATION:Palestra Bramante\, Via Valletta Fogliano 59\, Vigevano
-DESCRIPTION:TOP B misto · Girone A · giornata 13 · in trasferta
+DESCRIPTION:TOP B misto · Girone A · giornata 13 · in trasferta · gara
+  TOP/B-GIR.A50
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1071-14-1191-547@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270219T213000
 DTEND;TZID=Europe/Rome:20270219T233000
 SUMMARY:JURASSICI 2.0 – NEW EVERGREEN
 LOCATION:Palestra Comunale\, Via Quasimodo\, Zibido San Giacomo
-DESCRIPTION:TOP B misto · Girone A · giornata 14 · in casa
+DESCRIPTION:TOP B misto · Girone A · giornata 14 · in casa · gara TOP/
+ B-GIR.A52
 END:VEVENT
 END:VCALENDAR

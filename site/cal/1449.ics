@@ -26,113 +26,125 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:ivl-1078-2-1449-621@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261104T213000
 DTEND;TZID=Europe/Rome:20261104T233000
 SUMMARY:PM SPORT 1–4 PLESIOS
 LOCATION:Palazzetto dello Sport\, Via Stella Polare 11/A\, Mediglia
-DESCRIPTION:BASIC misto · Girone D · giornata 2 · in casa
+DESCRIPTION:BASIC misto · Girone D · giornata 2 · in casa · gara BAS-G
+ IR.D03
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1078-3-554-1449@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261115T210000
 DTEND;TZID=Europe/Rome:20261115T230000
 SUMMARY:ASDO MaaR – PM SPORT
 LOCATION:Tensostruttura Oratorio Don Bosco\, Via Papa Pio XI\, 36\, Caruga
  te
-DESCRIPTION:BASIC misto · Girone D · giornata 3 · in trasferta
+DESCRIPTION:BASIC misto · Girone D · giornata 3 · in trasferta · gara 
+ BAS-GIR.D08
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1078-4-1449-624@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261118T213000
 DTEND;TZID=Europe/Rome:20261118T233000
 SUMMARY:PM SPORT – GOCCE DI CICLONE
 LOCATION:Palazzetto dello Sport\, Via Stella Polare 11/A\, Mediglia
-DESCRIPTION:BASIC misto · Girone D · giornata 4 · in casa
+DESCRIPTION:BASIC misto · Girone D · giornata 4 · in casa · gara BAS-G
+ IR.D09
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1078-5-610-1449@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261123T213000
 DTEND;TZID=Europe/Rome:20261123T233000
 SUMMARY:OLIMPIA PB – PM SPORT
 LOCATION:Scuola San Bovio\, Viale Abruzzi\, 9\, Peschiera Borromeo
-DESCRIPTION:BASIC misto · Girone D · giornata 5 · in trasferta
+DESCRIPTION:BASIC misto · Girone D · giornata 5 · in trasferta · gara 
+ BAS-GIR.D12
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1078-6-1449-599@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261202T213000
 DTEND;TZID=Europe/Rome:20261202T233000
 SUMMARY:PM SPORT – ALTA IN BRANDA 007
 LOCATION:Palazzetto dello Sport\, Via Stella Polare 11/A\, Mediglia
-DESCRIPTION:BASIC misto · Girone D · giornata 6 · in casa
+DESCRIPTION:BASIC misto · Girone D · giornata 6 · in casa · gara BAS-G
+ IR.D15
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1078-7-977-1449@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261210T210000
 DTEND;TZID=Europe/Rome:20261210T230000
 SUMMARY:FREE BALL FREE BEER – PM SPORT
 LOCATION:Palestra Scuola Media Calvino\, Via Fratelli di Dio 101\, Sesto S
  an Giovanni
-DESCRIPTION:BASIC misto · Girone D · giornata 7 · in trasferta
+DESCRIPTION:BASIC misto · Girone D · giornata 7 · in trasferta · gara 
+ BAS-GIR.D19
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1078-9-621-1449@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270112T213000
 DTEND;TZID=Europe/Rome:20270112T233000
 SUMMARY:PLESIOS – PM SPORT
 LOCATION:Palestra Comunale\, Via Piave 62\, Vimodrone
-DESCRIPTION:BASIC misto · Girone D · giornata 9 · in trasferta
+DESCRIPTION:BASIC misto · Girone D · giornata 9 · in trasferta · gara 
+ BAS-GIR.D24
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1078-10-1449-554@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270120T213000
 DTEND;TZID=Europe/Rome:20270120T233000
 SUMMARY:PM SPORT – ASDO MaaR
 LOCATION:Palazzetto dello Sport\, Via Stella Polare 11/A\, Mediglia
-DESCRIPTION:BASIC misto · Girone D · giornata 10 · in casa
+DESCRIPTION:BASIC misto · Girone D · giornata 10 · in casa · gara BAS-
+ GIR.D29
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1078-11-624-1449@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270127T211500
 DTEND;TZID=Europe/Rome:20270127T231500
 SUMMARY:GOCCE DI CICLONE – PM SPORT
 LOCATION:Palestra Breda Piccola\, Via Leonardo da Vinci Snc\, Sesto San Gi
  ovanni
-DESCRIPTION:BASIC misto · Girone D · giornata 11 · in trasferta
+DESCRIPTION:BASIC misto · Girone D · giornata 11 · in trasferta · gara
+  BAS-GIR.D30
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1078-12-1449-610@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270203T213000
 DTEND;TZID=Europe/Rome:20270203T233000
 SUMMARY:PM SPORT – OLIMPIA PB
 LOCATION:Palazzetto dello Sport\, Via Stella Polare 11/A\, Mediglia
-DESCRIPTION:BASIC misto · Girone D · giornata 12 · in casa
+DESCRIPTION:BASIC misto · Girone D · giornata 12 · in casa · gara BAS-
+ GIR.D33
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1078-13-599-1449@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270211T213000
 DTEND;TZID=Europe/Rome:20270211T233000
 SUMMARY:ALTA IN BRANDA 007 – PM SPORT
 LOCATION:Palestra Scuola R. Steiner\, Via Tommaso Pini 1\, Milano
-DESCRIPTION:BASIC misto · Girone D · giornata 13 · in trasferta
+DESCRIPTION:BASIC misto · Girone D · giornata 13 · in trasferta · gara
+  BAS-GIR.D36
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1078-14-1449-977@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270217T213000
 DTEND;TZID=Europe/Rome:20270217T233000
 SUMMARY:PM SPORT – FREE BALL FREE BEER
 LOCATION:Palazzetto dello Sport\, Via Stella Polare 11/A\, Mediglia
-DESCRIPTION:BASIC misto · Girone D · giornata 14 · in casa
+DESCRIPTION:BASIC misto · Girone D · giornata 14 · in casa · gara BAS-
+ GIR.D40
 END:VEVENT
 END:VCALENDAR

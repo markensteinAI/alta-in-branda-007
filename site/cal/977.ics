@@ -26,118 +26,130 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:ivl-1078-2-554-977@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261108T210000
 DTEND;TZID=Europe/Rome:20261108T230000
 SUMMARY:ASDO MaaR – FREE BALL FREE BEER
 LOCATION:Tensostruttura Oratorio Don Bosco\, Via Papa Pio XI\, 36\, Caruga
  te
-DESCRIPTION:BASIC misto · Girone D · giornata 2 · in trasferta
+DESCRIPTION:BASIC misto · Girone D · giornata 2 · in trasferta · gara 
+ BAS-GIR.D05
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1078-3-977-610@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261112T210000
 DTEND;TZID=Europe/Rome:20261112T230000
 SUMMARY:FREE BALL FREE BEER – OLIMPIA PB
 LOCATION:Palestra Scuola Media Calvino\, Via Fratelli di Dio 101\, Sesto S
  an Giovanni
-DESCRIPTION:BASIC misto · Girone D · giornata 3 · in casa
+DESCRIPTION:BASIC misto · Girone D · giornata 3 · in casa · gara BAS-G
+ IR.D06
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1078-4-977-599@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261119T210000
 DTEND;TZID=Europe/Rome:20261119T230000
 SUMMARY:FREE BALL FREE BEER – ALTA IN BRANDA 007
 LOCATION:Palestra Scuola Media Calvino\, Via Fratelli di Dio 101\, Sesto S
  an Giovanni
-DESCRIPTION:BASIC misto · Girone D · giornata 4 · in casa
+DESCRIPTION:BASIC misto · Girone D · giornata 4 · in casa · gara BAS-G
+ IR.D11
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1078-6-621-977@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261201T213000
 DTEND;TZID=Europe/Rome:20261201T233000
 SUMMARY:PLESIOS – FREE BALL FREE BEER
 LOCATION:Palestra Comunale\, Via Piave 62\, Vimodrone
-DESCRIPTION:BASIC misto · Girone D · giornata 6 · in trasferta
+DESCRIPTION:BASIC misto · Girone D · giornata 6 · in trasferta · gara 
+ BAS-GIR.D16
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1078-1-977-624@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261203T210000
 DTEND;TZID=Europe/Rome:20261203T230000
 SUMMARY:FREE BALL FREE BEER – GOCCE DI CICLONE
 LOCATION:Palestra Scuola Media Calvino\, Via Fratelli di Dio 101\, Sesto S
  an Giovanni
-DESCRIPTION:BASIC misto · Girone D · giornata 1 · in casa
+DESCRIPTION:BASIC misto · Girone D · giornata 1 · in casa · gara BAS-G
+ IR.D01
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1078-7-977-1449@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261210T210000
 DTEND;TZID=Europe/Rome:20261210T230000
 SUMMARY:FREE BALL FREE BEER – PM SPORT
 LOCATION:Palestra Scuola Media Calvino\, Via Fratelli di Dio 101\, Sesto S
  an Giovanni
-DESCRIPTION:BASIC misto · Girone D · giornata 7 · in casa
+DESCRIPTION:BASIC misto · Girone D · giornata 7 · in casa · gara BAS-G
+ IR.D19
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1078-8-624-977@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261216T211500
 DTEND;TZID=Europe/Rome:20261216T231500
 SUMMARY:GOCCE DI CICLONE – FREE BALL FREE BEER
 LOCATION:Palestra Breda Piccola\, Via Leonardo da Vinci Snc\, Sesto San Gi
  ovanni
-DESCRIPTION:BASIC misto · Girone D · giornata 8 · in trasferta
+DESCRIPTION:BASIC misto · Girone D · giornata 8 · in trasferta · gara 
+ BAS-GIR.D22
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1078-9-977-554@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270114T210000
 DTEND;TZID=Europe/Rome:20270114T230000
 SUMMARY:FREE BALL FREE BEER – ASDO MaaR
 LOCATION:Palestra Scuola Media Calvino\, Via Fratelli di Dio 101\, Sesto S
  an Giovanni
-DESCRIPTION:BASIC misto · Girone D · giornata 9 · in casa
+DESCRIPTION:BASIC misto · Girone D · giornata 9 · in casa · gara BAS-G
+ IR.D26
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1078-10-610-977@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270121T213000
 DTEND;TZID=Europe/Rome:20270121T233000
 SUMMARY:OLIMPIA PB – FREE BALL FREE BEER
 LOCATION:Scuola San Bovio\, Viale Abruzzi\, 9\, Peschiera Borromeo
-DESCRIPTION:BASIC misto · Girone D · giornata 10 · in trasferta
+DESCRIPTION:BASIC misto · Girone D · giornata 10 · in trasferta · gara
+  BAS-GIR.D27
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1078-11-599-977@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270128T213000
 DTEND;TZID=Europe/Rome:20270128T233000
 SUMMARY:ALTA IN BRANDA 007 – FREE BALL FREE BEER
 LOCATION:Palestra Scuola R. Steiner\, Via Tommaso Pini 1\, Milano
-DESCRIPTION:BASIC misto · Girone D · giornata 11 · in trasferta
+DESCRIPTION:BASIC misto · Girone D · giornata 11 · in trasferta · gara
+  BAS-GIR.D32
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1078-13-977-621@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270211T210000
 DTEND;TZID=Europe/Rome:20270211T230000
 SUMMARY:FREE BALL FREE BEER – PLESIOS
 LOCATION:Palestra Scuola Media Calvino\, Via Fratelli di Dio 101\, Sesto S
  an Giovanni
-DESCRIPTION:BASIC misto · Girone D · giornata 13 · in casa
+DESCRIPTION:BASIC misto · Girone D · giornata 13 · in casa · gara BAS-
+ GIR.D37
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1078-14-1449-977@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270217T213000
 DTEND;TZID=Europe/Rome:20270217T233000
 SUMMARY:PM SPORT – FREE BALL FREE BEER
 LOCATION:Palazzetto dello Sport\, Via Stella Polare 11/A\, Mediglia
-DESCRIPTION:BASIC misto · Girone D · giornata 14 · in trasferta
+DESCRIPTION:BASIC misto · Girone D · giornata 14 · in trasferta · gara
+  BAS-GIR.D40
 END:VEVENT
 END:VCALENDAR

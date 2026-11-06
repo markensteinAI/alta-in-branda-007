@@ -26,137 +26,151 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:ivl-1071-1-618-1458@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261027T213000
 DTEND;TZID=Europe/Rome:20261027T233000
 SUMMARY:X TEAM 3–0 BLACK CATS 2.0
 LOCATION:Pala Morona\, Via Morona (ang. Via Tintoretto)\, Trezzano sul Nav
  iglio
-DESCRIPTION:TOP B misto · Girone A · giornata 1 · in casa
+DESCRIPTION:TOP B misto · Girone A · giornata 1 · in casa · gara TOP/B
+ -GIR.A00
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1071-2-1580-618@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261108T151500
 DTEND;TZID=Europe/Rome:20261108T171500
 SUMMARY:SKADOOSH LUDOSPORT – X TEAM
 LOCATION:Palestra Sc. Elementare Pisa\, Via Ugo Pisa 3\, Milano
-DESCRIPTION:TOP B misto · Girone A · giornata 2 · in trasferta
+DESCRIPTION:TOP B misto · Girone A · giornata 2 · in trasferta · gara 
+ TOP/B-GIR.A04
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1071-3-1191-618@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261113T213000
 DTEND;TZID=Europe/Rome:20261113T233000
 SUMMARY:JURASSICI 2.0 – X TEAM
 LOCATION:Palestra Comunale\, Via Quasimodo\, Zibido San Giacomo
-DESCRIPTION:TOP B misto · Girone A · giornata 3 · in trasferta
+DESCRIPTION:TOP B misto · Girone A · giornata 3 · in trasferta · gara 
+ TOP/B-GIR.A09
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1071-4-618-547@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261117T213000
 DTEND;TZID=Europe/Rome:20261117T233000
 SUMMARY:X TEAM – NEW EVERGREEN
 LOCATION:Pala Morona\, Via Morona (ang. Via Tintoretto)\, Trezzano sul Nav
  iglio
-DESCRIPTION:TOP B misto · Girone A · giornata 4 · in casa
+DESCRIPTION:TOP B misto · Girone A · giornata 4 · in casa · gara TOP/B
+ -GIR.A13
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1071-5-594-618@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261125T212000
 DTEND;TZID=Europe/Rome:20261125T232000
 SUMMARY:BAGGIO WEST VOLLEY – X TEAM
 LOCATION:Pal. Monaca\, Via Vespucci\, 11\, Cesano Boscone
-DESCRIPTION:TOP B misto · Girone A · giornata 5 · in trasferta
+DESCRIPTION:TOP B misto · Girone A · giornata 5 · in trasferta · gara 
+ TOP/B-GIR.A19
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1071-6-618-1173@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261201T213000
 DTEND;TZID=Europe/Rome:20261201T233000
 SUMMARY:X TEAM – BRADIBEER
 LOCATION:Pala Morona\, Via Morona (ang. Via Tintoretto)\, Trezzano sul Nav
  iglio
-DESCRIPTION:TOP B misto · Girone A · giornata 6 · in casa
+DESCRIPTION:TOP B misto · Girone A · giornata 6 · in casa · gara TOP/B
+ -GIR.A21
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1071-7-1672-618@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261213T200000
 DTEND;TZID=Europe/Rome:20261213T220000
 SUMMARY:FUCILATA – X TEAM
 LOCATION:Palestra Bramante\, Via Valletta Fogliano 59\, Vigevano
-DESCRIPTION:TOP B misto · Girone A · giornata 7 · in trasferta
+DESCRIPTION:TOP B misto · Girone A · giornata 7 · in trasferta · gara 
+ TOP/B-GIR.A27
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1071-8-618-1580@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20261215T213000
 DTEND;TZID=Europe/Rome:20261215T233000
 SUMMARY:X TEAM – SKADOOSH LUDOSPORT
 LOCATION:Pala Morona\, Via Morona (ang. Via Tintoretto)\, Trezzano sul Nav
  iglio
-DESCRIPTION:TOP B misto · Girone A · giornata 8 · in casa
+DESCRIPTION:TOP B misto · Girone A · giornata 8 · in casa · gara TOP/B
+ -GIR.A32
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1071-9-1458-618@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270115T214500
 DTEND;TZID=Europe/Rome:20270115T234500
 SUMMARY:BLACK CATS 2.0 – X TEAM
 LOCATION:Sc.El. Giacosa\, Via Fogazzaro (di fronte civico 8)\, Trezzano su
  l Naviglio
-DESCRIPTION:TOP B misto · Girone A · giornata 9 · in trasferta
+DESCRIPTION:TOP B misto · Girone A · giornata 9 · in trasferta · gara 
+ TOP/B-GIR.A28
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1071-10-547-618@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270121T214500
 DTEND;TZID=Europe/Rome:20270121T234500
 SUMMARY:NEW EVERGREEN – X TEAM
 LOCATION:Palestra Robbiolo\, Via Indipendenza Angolo Via Gramsci\, Buccina
  sco
-DESCRIPTION:TOP B misto · Girone A · giornata 10 · in trasferta
+DESCRIPTION:TOP B misto · Girone A · giornata 10 · in trasferta · gara
+  TOP/B-GIR.A41
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1071-11-618-1191@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270126T213000
 DTEND;TZID=Europe/Rome:20270126T233000
 SUMMARY:X TEAM – JURASSICI 2.0
 LOCATION:Pala Morona\, Via Morona (ang. Via Tintoretto)\, Trezzano sul Nav
  iglio
-DESCRIPTION:TOP B misto · Girone A · giornata 11 · in casa
+DESCRIPTION:TOP B misto · Girone A · giornata 11 · in casa · gara TOP/
+ B-GIR.A37
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1071-12-618-594@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270202T213000
 DTEND;TZID=Europe/Rome:20270202T233000
 SUMMARY:X TEAM – BAGGIO WEST VOLLEY
 LOCATION:Pala Morona\, Via Morona (ang. Via Tintoretto)\, Trezzano sul Nav
  iglio
-DESCRIPTION:TOP B misto · Girone A · giornata 12 · in casa
+DESCRIPTION:TOP B misto · Girone A · giornata 12 · in casa · gara TOP/
+ B-GIR.A47
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1071-14-618-1672@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270216T213000
 DTEND;TZID=Europe/Rome:20270216T233000
 SUMMARY:X TEAM – FUCILATA
 LOCATION:Pala Morona\, Via Morona (ang. Via Tintoretto)\, Trezzano sul Nav
  iglio
-DESCRIPTION:TOP B misto · Girone A · giornata 14 · in casa
+DESCRIPTION:TOP B misto · Girone A · giornata 14 · in casa · gara TOP/
+ B-GIR.A55
 END:VEVENT
 BEGIN:VEVENT
 UID:ivl-1071-13-1173-618@ivl-squadra-pages
-DTSTAMP:20261106T081829Z
+DTSTAMP:20261106T083508Z
 DTSTART;TZID=Europe/Rome:20270301T211500
 DTEND;TZID=Europe/Rome:20270301T231500
 SUMMARY:BRADIBEER – X TEAM
 LOCATION:Centro Sportivo Gallaratese\, Via Natta\, 11\, Milano
-DESCRIPTION:TOP B misto · Girone A · giornata 13 · in trasferta
+DESCRIPTION:TOP B misto · Girone A · giornata 13 · in trasferta · gara
+  TOP/B-GIR.A49
 END:VEVENT
 END:VCALENDAR
