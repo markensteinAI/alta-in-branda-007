@@ -797,6 +797,102 @@ ${numRow(m)}
   if (other.length) h += `<div class="card"><div class="card-h"><h3>${m.giornata < other[0].giornata ? 'Ritorno' : 'Andata'}</h3></div><div class="mlist">${other.map(x => matchRow(x, { giornata: true })).join('')}</div></div>`;
   openSheet(h, 'Partita ' + TEAM[m.h].short + ' – ' + TEAM[m.a].short);
 }
+/* ---------- stagioni passate (storico.js: file separato generato dal bot, caricato solo quando serve) ---------- */
+let STO = window.IVL_STORICO || null, stoState = STO ? 2 : 0, stoRedo = null; // 0 da caricare, 1 in caricamento, 2 pronto, 3 non disponibile
+function loadStorico() {
+  if (stoState || !HOSTED) return;
+  stoState = 1;
+  const s = document.createElement('script');
+  s.src = 'storico.js?d=' + dayKey(NOW);
+  s.onload = () => { STO = window.IVL_STORICO || null; stoState = STO ? 2 : 3; const f = stoRedo; stoRedo = null; if (STO && f && !sheet.hidden) f(); };
+  s.onerror = () => { stoState = 3; stoRedo = null; };
+  document.head.appendChild(s);
+}
+function needStorico(redo) { if (stoState === 2 || stoState === 3 || !HOSTED) return; stoRedo = redo; loadStorico(); }
+// gerarchia Volley Cup, dalla più alta: Elite, Elite B, Top, Top B, Basic, Superbasic
+const CATS_NOW = [[/SUPER\s*BASIC/i, 'Superbasic', 1], [/PRE\s*BASIC/i, 'Pre Basic', null], [/TOP\s*B\b/i, 'Top B', 4], [/ELITE\s*B\b/i, 'Elite B', 6], [/ELITE/i, 'Elite', 7], [/TOP/i, 'Top', 5], [/BASIC/i, 'Basic', 2]];
+function catNow(t) { const c = CAMP[GIR[TEAM[t].gid].cid].name; for (const [re, lab, lvl] of CATS_NOW) if (re.test(c)) return { lab, lvl }; return { lab: c, lvl: null }; }
+// voce: [stagione, categoria, livello, fase, girone, posizione, squadre, punti, vinte, giocate, fine]
+const stoT = t => (STO && STO.t && STO.t[t]) || [];
+const lastSeason = t => stoT(t).filter(e => e[0] === 0);
+function moveOf(t) {
+  const e = lastSeason(t).filter(x => x[2] != null);
+  if (!e.length) return null;
+  const last = e[e.length - 1], now = catNow(t);
+  if (now.lvl == null) return null;
+  return { dir: last[2] < now.lvl ? 'up' : last[2] > now.lvl ? 'down' : 'same', from: last[1], to: now.lab, last };
+}
+const hPos = e => e[6] === 2 ? (e[5] === 1 ? 'vinta' : 'persa') : `${e[5]}ª su ${e[6]}`;
+const hPhase = e => [e[3] ? cap(e[3]) : '', e[4] ? 'Girone ' + e[4] : ''].filter(Boolean).join(' · ') || 'Girone unico';
+function hLast(e) { return `${e[3] ? e[3] + ' ' : ''}${hPos(e)}`; }
+function prevLine(t) {
+  const e = lastSeason(t);
+  if (!STO || !e.length) return '';
+  const cats = [...new Set(e.map(x => x[1]))].join(' → '), mv = moveOf(t);
+  return `<div class="sf-prev">${STO.anni[0]}: ${esc(cats)}, ${esc(hLast(e[e.length - 1]))}${mv && mv.dir !== 'same' ? ` · <span class="${mv.dir}">${mv.dir === 'up' ? '▲ salita' : '▼ scesa'}</span>` : ''}</div>`;
+}
+function histCard(t) {
+  if (!HOSTED) return '';
+  const head = '<div class="card-h"><h3>Stagioni passate</h3><span class="eyebrow">archivio della lega</span></div>';
+  if (!STO) return stoState === 3 ? '' : `<div class="card">${head}<p class="small muted">Caricamento…</p></div>`;
+  const all = stoT(t);
+  if (!all.length) return `<div class="card">${head}${emptyNote('Nessuna stagione passata con questo nome nell’archivio della lega (dal ' + STO.anni[STO.anni.length - 1] + ').')}</div>`;
+  const by = {}; all.forEach(e => (by[e[0]] = by[e[0]] || []).push(e));
+  const seasons = Object.keys(by).map(Number).sort((a, b) => a - b);
+  const season = si => `<div class="hs"><div class="hs-h"><b>${STO.anni[si]}</b><span>${esc([...new Set(by[si].map(x => x[1]))].join(' → '))}</span></div><ul class="hs-l">${by[si].map(e => `<li><span>${esc(hPhase(e))}</span><b>${hPos(e)}</b><small>${e[7]} pt · ${e[8]} ${e[8] === 1 ? 'vinta' : 'vinte'} su ${e[9]}</small></li>`).join('')}</ul></div>`;
+  const mv = moveOf(t);
+  let h = `<div class="card">${head}`;
+  if (mv) h += mv.dir === 'same' ? `<p class="hs-mv">Stessa categoria dell’anno scorso: ${esc(mv.to)}</p>` : `<p class="hs-mv ${mv.dir}">${mv.dir === 'up' ? '▲ Salita' : '▼ Scesa'} in ${esc(mv.to)} dalla ${esc(mv.from)}</p>`;
+  h += season(seasons[0]);
+  if (seasons.length > 1) h += `<details class="hs-more"><summary>Stagioni precedenti (${seasons.length - 1})</summary>${seasons.slice(1).map(season).join('')}</details>`;
+  return h + '<p class="legend">Squadre riconosciute per nome: quando una società ha più squadre con lo stesso nome, le stagioni dubbie non sono mostrate.</p></div>';
+}
+function pastMeetings(g, a, b) {
+  return ((STO && STO.p && STO.p[g.id]) || []).filter(x => (x[1] === a && x[2] === b) || (x[1] === b && x[2] === a));
+}
+function stoInsights(g, a, b, add, nm) {
+  if (!STO) return;
+  [a, b].forEach(t => {
+    const mv = moveOf(t);
+    if (mv && mv.dir !== 'same') add(t, 57, `${nm(t)} ${mv.dir === 'up' ? 'è salita' : 'è scesa'} quest’anno dalla ${esc(mv.from)}: nel ${STO.anni[0]} ${mv.last[6] === 2 ? (mv.last[5] === 1 ? 'ha vinto' : 'ha perso') + ' la ' + esc(mv.last[3] || 'finale') : 'è arrivata ' + mv.last[5] + 'ª su ' + mv.last[6] + (mv.last[3] ? ' nella ' + esc(mv.last[3]) : '')}.`);
+    const won = lastSeason(t).filter(e => e[5] === 1 && e[6] >= 4).pop();
+    if (won) add(t, 52, `L’anno scorso ${nm(t)} ha chiuso al primo posto ${won[3] ? 'la ' + esc(won[3]) : 'il suo girone'} (${esc(won[1])}, ${won[6]} squadre).`);
+  });
+  const ea = lastSeason(a), eb = lastSeason(b);
+  for (const x of ea) {
+    const y = eb.find(z => z[1] === x[1] && z[3] === x[3] && z[4] === x[4] && z[6] === x[6] && z[6] > 2);
+    if (y) { add(a, 53, `L’anno scorso erano nello stesso girone (${esc(x[1])}${x[3] ? ', ' + esc(x[3]) : ''}): ${nm(a)} ${x[5]}ª, ${nm(b)} ${y[5]}ª.`); break; }
+  }
+  const pm = pastMeetings(g, a, b);
+  if (pm.length >= 2) {
+    const wa = pm.filter(x => (x[1] === a) === (x[3] > x[4])).length, wb = pm.length - wa;
+    if (!wa || !wb) add(wa ? a : b, 61, `Nelle stagioni passate ${nm(wa ? a : b)} ha vinto tutte le ${pm.length} sfide con ${nm(wa ? b : a)}.`);
+    else add(wa > wb ? a : b, 55, `Precedenti delle stagioni passate: ${nm(a)} ${wa} vinte, ${nm(b)} ${wb}.`);
+  } else if (pm.length === 1) {
+    const x = pm[0], w = x[3] > x[4] ? x[1] : x[2];
+    add(w, 50, `Unico precedente nelle stagioni passate: ${nm(w)} ha vinto ${Math.max(x[3], x[4])}–${Math.min(x[3], x[4])} (${STO.anni[x[5]]}).`);
+  }
+}
+function precedentiCard(g, a, b, m) {
+  const meet = g.matches.filter(x => involves(x, a) && involves(x, b)).sort(byDate);
+  const pm = pastMeetings(g, a, b);
+  if (!meet.length && !pm.length && !STO) return '';
+  const played = meet.filter(x => x.res);
+  const wins = t => played.filter(x => winner(x) === t).length + pm.filter(x => (x[3] > x[4] ? x[1] : x[2]) === t).length;
+  const nTot = played.length + pm.length;
+  const yd = n => { const s = String(n).padStart(6, '0'); return new Date(2000 + +s.slice(0, 2), +s.slice(2, 4) - 1, +s.slice(4, 6)); };
+  const row = x => { const w = x[3] > x[4] ? x[1] : x[2]; return `<div class="pr-row"><span class="pr-d">${esc(fDM.format(yd(x[0])))} ${yd(x[0]).getFullYear()}<small>${esc(x[6])}</small></span><span class="pr-m"><span class="${w === x[1] ? 'w' : 'l'}">${esc(TEAM[x[1]].short)}</span><b>${x[3]}–${x[4]}</b><span class="${w === x[2] ? 'w' : 'l'}">${esc(TEAM[x[2]].short)}</span></span></div>`; };
+  let h = `<div class="card"><div class="card-h"><h3>Precedenti</h3><span class="eyebrow">${STO ? 'dal ' + STO.anni[STO.anni.length - 1] : 'questa stagione'}</span></div>`;
+  const vv = n => n + (n === 1 ? ' vinta' : ' vinte');
+  if (nTot) h += `<p class="pr-sum"><span><i class="sw"></i><b>${esc(TEAM[a].short)}</b> ${vv(wins(a))}</span><span><i class="sw b"></i><b>${esc(TEAM[b].short)}</b> ${vv(wins(b))}</span><span class="muted">su ${nTot} ${nTot === 1 ? 'partita' : 'partite'}</span></p>`;
+  if (meet.length) h += `<div class="pr-h">Questa stagione</div><div class="mlist">${meet.map(x => matchRow(x, { giornata: true })).join('')}</div>`;
+  if (pm.length) {
+    h += `<div class="pr-h">Stagioni passate</div>${pm.slice(0, 4).map(row).join('')}`;
+    if (pm.length > 4) h += `<details class="hs-more"><summary>Altre ${pm.length - 4}</summary>${pm.slice(4).map(row).join('')}</details>`;
+  } else if (STO) h += `<p class="small muted" style="margin-top:8px">Nessuna sfida tra queste due squadre nelle stagioni passate (dal ${STO.anni[STO.anni.length - 1]}).</p>`;
+  return h + '</div>';
+}
+
 function openTeam(t) {
   const T = TEAM[t]; if (!T || !T.gid) return;
   const g = GIR[T.gid], o = posOf(t), S = compOf(g)[t];
@@ -807,10 +903,12 @@ function openTeam(t) {
 <div class="tiles"><div class="tile"><span class="eyebrow">Posizione</span><div class="v">${o.pos}°</div><div class="h">su ${g.tids.length}</div></div><div class="tile"><span class="eyebrow">Punti</span><div class="v">${o.pts}</div><div class="h">${o.g} giocate</div></div><div class="tile"><span class="eyebrow">V–P</span><div class="v">${o.v}–${o.p}</div><div class="h">set ${o.sv}–${o.sp}</div></div><div class="tile"><span class="eyebrow">Forma</span><div style="margin-top:8px">${formHTML(S.res)}</div></div></div>
 ${hv ? `<div class="card">${'<span class="eyebrow">Campo di casa</span>'}<div style="margin-top:8px">${venueBlock({ pal: hv.id, h: t, a: 0 }, false)}</div>${t !== MY && km(myHome(), hv) != null ? `<p class="small muted" style="margin-top:6px">${num1(km(myHome(), hv))} km in linea d'aria dalla palestra di ${esc(TEAM[MY].short)}</p>` : ''}<div class="btns" style="margin-top:10px"><a class="btn" href="${mapsUrl(hv)}" target="_blank" rel="noopener">${ICON.route}Indicazioni</a></div></div>` : ''}
 <div class="card"><div class="card-h"><h3>Calendario</h3><span class="eyebrow">${ms.filter(m => m.res).length}/${ms.length} giocate</span></div><div class="mlist">${ms.map(m => matchRow(m, { giornata: true })).join('')}</div></div>
+${histCard(t)}
 ${HOSTED ? `<div class="btns">${calButton(t)}</div>` : ''}
 <div class="btns">${t !== MY && TEAM[MY].gid === T.gid ? `<button type="button" class="btn primary" data-act="sfida-t" data-id="${t}">${ICON.vs}Confronto con ${esc(TEAM[MY].short)}</button>` : ''}${t !== MY ? `<button type="button" class="btn" data-act="set-my" data-id="${t}">Imposta come la mia squadra</button>` : '<span class="tag mine">È la tua squadra</span>'}<button type="button" class="btn" data-gir="${g.id}" data-go="classifica">Classifica del girone</button></div>`;
   void nx;
   openSheet(h, 'Squadra ' + T.short);
+  needStorico(() => openTeam(t));
 }
 
 /* ---------- numero gara ---------- */
@@ -902,6 +1000,7 @@ function insights(g, a, b, m, S, X, sc) {
       }
     }
   }
+  stoInsights(g, a, b, add, nm);
   out.sort((p, q2) => q2.w - p.w);
   const per = {}, pick = [];
   for (const o of out) { if ((per[o.t] || 0) >= 2) continue; per[o.t] = (per[o.t] || 0) + 1; pick.push(o.s); if (pick.length >= 4) break; }
@@ -937,7 +1036,7 @@ function openSfida(a, b, m) {
   const S = compOf(g), X = { [a]: teamExtra(g, a), [b]: teamExtra(g, b) }, oa = posOf(a), ob = posOf(b), sa = S[a], sb = S[b];
   const nmb = t => esc(TEAM[t].short), pr = (x, y) => y ? x / y : null, pctS = v => v == null ? '—' : Math.round(v * 100) + '%';
   const sc = scenarios(g, m);
-  const side = (t, k) => `<div class="side${k ? ' r' : ''}"><button type="button" class="tn-btn" data-t="${t}"><span class="tn${t === MY ? ' me' : ''}"><i class="sw${k ? ' b' : ''}"></i>${nmb(t)}</span></button><div class="meta">${(k ? ob : oa).pos}° · ${(k ? ob : oa).pts} pt${m && m.h === t ? ' · <span class="tag home">Casa</span>' : ''}</div><div class="sf-form">${formHTML(S[t].res)}</div></div>`;
+  const side = (t, k) => `<div class="side${k ? ' r' : ''}"><button type="button" class="tn-btn" data-t="${t}"><span class="tn${t === MY ? ' me' : ''}"><i class="sw${k ? ' b' : ''}"></i>${nmb(t)}</span></button><div class="meta">${(k ? ob : oa).pos}° · ${(k ? ob : oa).pts} pt${m && m.h === t ? ' · <span class="tag home">Casa</span>' : ''}</div><div class="sf-form">${formHTML(S[t].res)}</div>${prevLine(t)}</div>`;
   const p = m && PAL[m.pal];
   let h = `<div style="padding-right:44px"><span class="eyebrow">${m && !m.res ? 'Anteprima' : 'Confronto'} · ${esc(ctxName(g))}${m ? ' · giornata ' + m.giornata : ''}</span></div>
 <div class="card sf-head"><div class="vs">${side(a, 0)}<div class="mid">${m && m.res ? `<span class="score">${m.res.sh}–${m.res.sa}</span>` : 'VS'}</div>${side(b, 1)}</div>
@@ -988,10 +1087,10 @@ ${group('wa', `<i class="sw"></i>Se vince ${nmb(a)}`, winsA, r => r.as + '–' +
   const commons = g.tids.filter(c => c !== a && c !== b && X[a].vs[c] && X[b].vs[c]).sort((p1, p2) => posOf(p1).pos - posOf(p2).pos);
   const chips = list => list.map(r => `<span class="tag res ${r.r === 'w' ? 'win' : r.r === 'l' ? 'loss' : 'warn'}">${r.r === 'w' ? 'V' : r.r === 'l' ? 'P' : '='} ${r.my}–${r.op}</span>`).join('');
   h += `<div class="card"><div class="card-h"><h3>Avversari comuni</h3><span class="eyebrow">stesse squadre affrontate</span></div>${commons.length ? `<div class="co"><div class="co-row co-h"><span></span><span><i class="sw"></i>${nmb(a)}</span><span><i class="sw b"></i>${nmb(b)}</span></div>${commons.map(c => `<button type="button" class="co-row" data-t="${c}"><span class="nm">${posOf(c).pos}° ${nmb(c)}</span><span class="co-r">${chips(X[a].vs[c])}</span><span class="co-r">${chips(X[b].vs[c])}</span></button>`).join('')}</div>` : emptyNote('Ancora nessun avversario affrontato da entrambe.')}</div>`;
-  const meet = g.matches.filter(x => involves(x, a) && involves(x, b)).sort(byDate);
-  if (meet.length) h += `<div class="card"><div class="card-h"><h3>Le sfide della stagione</h3><span class="eyebrow">andata e ritorno</span></div><div class="mlist">${meet.map(x => matchRow(x, { giornata: true })).join('')}</div></div>`;
+  h += precedentiCard(g, a, b, m);
   h += `<div class="btns"><button type="button" class="btn" data-t="${a}">Scheda ${nmb(a)}</button><button type="button" class="btn" data-t="${b}">Scheda ${nmb(b)}</button>${p && m && !m.res ? `<a class="btn" href="${mapsUrl(p)}" target="_blank" rel="noopener">${ICON.route}Indicazioni</a>` : ''}</div>`;
   openSheet(h, (m && !m.res ? 'Anteprima ' : 'Confronto ') + TEAM[a].short + ' – ' + TEAM[b].short);
+  needStorico(() => openSfida(a, b, m));
 }
 function openSfidaWith(o) {
   const g = GIR[TEAM[MY].gid];
@@ -1165,6 +1264,7 @@ try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () =
 
 footer();
 render(true);
+setTimeout(loadStorico, 1500);
 
 /* download del calendario: attivo solo dove il visualizzatore lo consente */
 (async () => {
