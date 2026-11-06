@@ -6,15 +6,20 @@ Sito: https://markensteinai.github.io/alta-in-branda-007/
 
 ## Come si aggiorna
 
-Il workflow `.github/workflows/pages.yml` gira tre volte al giorno (e a ogni modifica del repository):
+Il workflow `.github/workflows/pages.yml` gira ogni 4 ore (e a ogni modifica del repository):
 
 1. `scripts/update-data.mjs` legge i dati pubblici di [ivl.usacli.it](https://ivl.usacli.it) (campionati, gironi, squadre, partite, classifiche ufficiali);
 2. riscrive `site/data.js` e i calendari `site/cal/<id squadra>.ics` solo se qualcosa è cambiato;
-3. pubblica la cartella `site/` su GitHub Pages.
+3. una volta a settimana (o quando cambiano le squadre) rigenera `site/storico.js` con le stagioni passate (vedi sotto);
+4. pubblica la cartella `site/` su GitHub Pages.
 
 Se il sito della lega non risponde o restituisce dati sospetti, lo script si ferma senza toccare i file: la pagina resta all'ultima versione buona e il workflow risulta in errore.
 
 Per forzare un aggiornamento: scheda **Actions** → *Aggiorna dati e pubblica il sito* → **Run workflow**.
+
+## Stagioni passate
+
+`scripts/storico.mjs` legge l'archivio pubblico della lega (classifiche finali di ogni fase e partite delle ultime 4 stagioni) e lo collega alle squadre di quest'anno **per nome**, senza il suffisso di categoria: l'archivio non ha codici squadra. Se più squadre condividono lo stesso nome base serve lo stesso suffisso, altrimenti il dato viene scartato. Delle partite si tengono solo data, squadre e risultato. La pagina carica `storico.js` solo quando serve (scheda squadra, anteprima sfida). Gerarchia usata per dire "salita" o "scesa": Elite, Elite B, Top, Top B, Basic, Superbasic. Se l'archivio non risponde resta il file della volta prima.
 
 ## Calendari
 
