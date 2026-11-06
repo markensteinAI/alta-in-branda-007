@@ -828,8 +828,8 @@ function resultMail(m) {
     `${TEAM[m.h].name} – ${TEAM[m.a].name}`,
     `Giocata il ${dmyS(m.date)} alle ${fT(m.date)}`,
     '',
-    'Risultato finale (set): __ – __',
-    'Parziali: __-__  __-__  __-__  __-__  __-__'
+    m.res ? `Risultato finale (set): ${m.res.sh} – ${m.res.sa}` : 'Risultato finale (set): __ – __',
+    m.res && m.res.sets.length ? `Parziali: ${m.res.sets.map(x => x.join('-')).join('  ')}` : 'Parziali: __-__  __-__  __-__  __-__  __-__'
   ];
   if (/autoarbitrat/i.test(g.tip)) lines.push('', 'In allegato le distinte gara firmate di entrambe le squadre.');
   return `mailto:${RES_MAIL}?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(lines.join('\r\n'))}`;
@@ -840,7 +840,8 @@ const sendDue = m => m.h === MY && !m.res && m.date - NOW < 12 * 3600e3 && NOW -
 function sendBlock(m) {
   if (!involves(m, MY)) return '';
   if (m.h !== MY) return m.res ? '' : `<p class="small muted">In trasferta: il risultato lo comunica la squadra di casa, ${esc(TEAM[m.h].short)}.</p>`;
-  if (m.res) return '<p class="small muted">Risultato già registrato sul sito della lega: non serve più mandarlo.</p>';
+  if (m.res) return `<div class="send soft"><span class="eyebrow">Mail del risultato</span><p>Il risultato di questa partita è già registrato sul sito della lega, quindi non serve mandarlo. Se c’è da correggere qualcosa, la bozza qui sotto ha già risultato e parziali come risultano oggi.</p>
+<div class="btns"><a class="btn" href="${esc(resultMail(m))}">${ICON.mail}Bozza della mail</a>${m.num ? `<button type="button" class="btn" data-act="copy-num" data-id="${m.id}">Copia numero gara</button>` : ''}</div></div>`;
   const due = m.date - NOW < 12 * 3600e3;
   const txt = due
     ? `Tocca alla squadra di casa: entro 24 ore dalla gara a <b>${RES_MAIL}</b>, con in copia la squadra avversaria. La mail si apre già compilata: mancano risultato e parziali (in alternativa si può allegare la foto del referto).`
