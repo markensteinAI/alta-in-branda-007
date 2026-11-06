@@ -2,6 +2,8 @@
 // Uso: node scripts/update-data.mjs   (Node 20+, nessuna dipendenza)
 // Se qualcosa non torna esce con errore e non tocca i file: il sito resta all'ultima versione buona.
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
+import { buildStorico } from './storico.mjs';
 
 const BASE = 'https://ivl.usacli.it';
 const TERR = +(process.env.IVL_TERRITORIO || 3);          // Lombardia (MI+MB)
@@ -148,6 +150,28 @@ function teamCalendar(tid, data, events, stamp) {
 async function readPrev() {
   try { const t = await readFile(new URL('data.js', OUT), 'utf8'); return JSON.parse(t.slice(t.indexOf('{'), t.lastIndexOf('}') + 1)); } catch { return null; }
 }
+/* ---------- storico delle stagioni passate (site/storico.js, caricato dalla pagina solo quando serve) ----------
+   L'archivio cambia solo a fine stagione: si rigenera se manca, se cambiano le squadre o una volta a settimana. */
+async function updateStorico(D) {
+  const file = new URL('storico.js', OUT);
+  const key = createHash('sha256').update(Object.keys(D.teams).sort().join(',')).digest('hex').slice(0, 12);
+  let prev = null;
+  try { const t = await readFile(file, 'utf8'); prev = JSON.parse(t.slice(t.indexOf('{'), t.lastIndexOf('}') + 1)); } catch {}
+  if (prev && prev.key === key && Date.now() - Date.parse(prev.chk) < 7 * 864e5 && !process.argv.includes('--storico')) {
+    console.log('Storico: già controllato negli ultimi 7 giorni.');
+    return;
+  }
+  const y0 = +START.slice(2, 4);
+  const S = await buildStorico(D, get, { terr: TERR, anni: [y0 - 1, y0 - 2, y0 - 3, y0 - 4] });
+  const body = { anni: S.anni, t: S.t, p: S.p };
+  const now = new Date().toISOString().replace(/\.\d+Z$/, 'Z');
+  const same = prev && JSON.stringify({ anni: prev.anni, t: prev.t, p: prev.p }) === JSON.stringify(body);
+  const out = { gen: same ? prev.gen : now, chk: now, key, ...body };
+  await writeFile(file, '/* Generato da scripts/update-data.mjs: storico dall\'archivio della lega, non modificare a mano */\nwindow.IVL_STORICO = ' + JSON.stringify(out).replace(/</g, '\\u003c').replace(/\u2028/g, '\\u2028').replace(/\u2029/g, '\\u2029') + ';\n');
+  const nP = Object.values(S.p).reduce((a, b) => a + b.length, 0);
+  console.log(`Storico ${same ? 'invariato' : 'aggiornato'}: ${Object.keys(S.t).length} squadre con stagioni passate, ${nP} precedenti (${S.nCls} classifiche e ${S.nMatch} partite in archivio).`);
+}
+
 const countMatches = d => d.ms.split('#').reduce((a, b) => a + b.slice(b.indexOf(':') + 1).split(';').filter(Boolean).length, 0);
 async function writeCalendars(data) {
   await mkdir(new URL('cal/', OUT), { recursive: true });
@@ -175,6 +199,7 @@ if (process.argv.includes('--solo-calendari')) {
   const data = { gen: same ? prevGen : new Date().toISOString().replace(/\.\d+Z$/, 'Z'), ...payload };
   await writeFile(new URL('data.js', OUT), '/* Generato da scripts/update-data.mjs, non modificare a mano */\nwindow.IVL = ' + JSON.stringify(data).replace(/</g, '\\u003c').replace(/\u2028/g, '\\u2028').replace(/\u2029/g, '\\u2029') + ';\n');
   await writeCalendars(data);
+  try { await updateStorico(D); } catch (e) { console.log(`::warning::Storico delle stagioni passate non aggiornato (resta quello di prima): ${e.message}`); }
   await writeFile(new URL('stato.js', OUT), `window.IVL_CHECK = ${JSON.stringify(new Date().toISOString().replace(/\.\d+Z$/, 'Z'))};\n`);
   console.log(`${same ? 'Nessuna novità' : 'Dati aggiornati'}: ${D.camp.length} campionati, ${D.gir.length} gironi, ${Object.keys(D.teams).length} squadre, ${nMatches} partite, ${Object.keys(D.pal).length} palestre.`);
 }
