@@ -36,7 +36,7 @@ async function build() {
   const camps = allCamp.filter(c => { const s = c.data_inizio_campionato && dmy(c.data_inizio_campionato); return s && s >= START && s <= END && !c.deleted_at; })
     .sort((a, b) => ((ORDER.indexOf(a.id) + 1) || 99) - ((ORDER.indexOf(b.id) + 1) || 99) || a.name.localeCompare(b.name));
   if (!camps.length) throw new Error('Nessun campionato trovato per la stagione');
-  const D = { camp: [], gir: [], cls: {}, teams: {}, pal: {}, ms: [] };
+  const D = { camp: [], gir: [], cls: {}, teams: {}, pal: {}, ms: [], num: {} };
   const season = `inizio_stagione=${START}T00:00:00.000Z&fine_stagione=${END}T00:00:00.000Z`;
   for (const c of camps) {
     D.camp.push([c.id, c.name, c.TipoCampionato]);
@@ -70,7 +70,7 @@ async function build() {
         let s = row.join(',');
         if (res) s += ',' + res; else if (extra) s += ',';
         if (extra) s += ',' + extra;
-        ms.push({ g: +r.giornata, dt: row[1], s });
+        ms.push({ g: +r.giornata, dt: row[1], s, n: clean(r.npartita_custom).replace(/[#:]/g, ' ').slice(0, 40) });
       }
       ms.sort((a, b) => a.g - b.g || a.dt.localeCompare(b.dt));
       const cl = await get(`/Classifica/${g.id}`);
@@ -80,6 +80,8 @@ async function build() {
       D.cls[g.id] = cl.map(x => [x.Punteggio, x.PartiteGiocate, x.PartiteVinte, x.SetVinti, x.SetPersi, x.PuntiVinti, x.PuntiPersi].map(Number));
       D.gir.push([g.id, c.id, girName(g.name), g.TipoCompetizione, tids, order]);
       D.ms.push(g.id + ':' + ms.map(m => m.s).join(';'));
+      // numero gara (es. BAS-GIR.D04), nello stesso ordine delle partite: serve per comunicare il risultato
+      D.num[g.id] = ms.map(m => m.n);
       await sleep(150);
     }
   }
@@ -112,7 +114,9 @@ function parseEvents(data) {
   const out = [];
   data.ms.split('#').forEach(block => {
     const i = block.indexOf(':'), gid = +block.slice(0, i), g = gir[gid];
-    block.slice(i + 1).split(';').filter(Boolean).forEach(row => {
+    const nums = (data.num && data.num[gid]) || [];
+    block.slice(i + 1).split(';').forEach((row, k) => {
+      if (!row) return;
       const f = row.split(',');
       let dt = f[1], pal = +f[2], home = g.tids[+f[3]], away = g.tids[+f[4]];
       const uid = `ivl-${gid}-${f[0]}-${home}-${away}`;
@@ -120,7 +124,7 @@ function parseEvents(data) {
       if (r) dt = r[1];
       if (p) pal = +p[1];
       if (e.includes('x')) [home, away] = [away, home];
-      out.push({ uid, camp: g.camp, gir: g.name, giornata: +f[0], dt, pal, home, away, res: f[5] ? f[5].split('/')[0] : '' });
+      out.push({ uid, camp: g.camp, gir: g.name, giornata: +f[0], dt, pal, home, away, res: f[5] ? f[5].split('/')[0] : '', num: nums[k] || '' });
     });
   });
   return out;
@@ -134,7 +138,7 @@ function teamCalendar(tid, data, events, stamp) {
     const h = short(data.teams[e.home][0]), a = short(data.teams[e.away][0]);
     const sum = e.res ? `${h} ${e.res.replace('-', '–')} ${a}` : `${h} – ${a}`;
     L.push('BEGIN:VEVENT', `UID:${e.uid}@ivl-squadra-pages`, `DTSTAMP:${stamp}`, `DTSTART;TZID=Europe/Rome:${fmtLocal(t)}`, `DTEND;TZID=Europe/Rome:${fmtLocal(plus2h(t))}`,
-      `SUMMARY:${icsText(sum)}`, ...(p ? [`LOCATION:${icsText(`${p.n}, ${p.a}, ${p.c}`)}`] : []), `DESCRIPTION:${icsText(`${e.camp} · ${e.gir === 'Girone unico' ? '' : e.gir + ' · '}giornata ${e.giornata}${e.home === tid ? ' · in casa' : ' · in trasferta'}`)}`, 'END:VEVENT');
+      `SUMMARY:${icsText(sum)}`, ...(p ? [`LOCATION:${icsText(`${p.n}, ${p.a}, ${p.c}`)}`] : []), `DESCRIPTION:${icsText(`${e.camp} · ${e.gir === 'Girone unico' ? '' : e.gir + ' · '}giornata ${e.giornata}${e.home === tid ? ' · in casa' : ' · in trasferta'}${e.num ? ' · gara ' + e.num : ''}`)}`, 'END:VEVENT');
   });
   L.push('END:VCALENDAR');
   return L.map(fold).join('\r\n') + '\r\n';
@@ -161,7 +165,7 @@ if (process.argv.includes('--solo-calendari')) {
   const D = await build();
   const payload = {
     src: `${BASE}/CalendarioView?girone_id=${SRC_GIRONE}&territorio_id=${TERR}&campionato_id=${(D.gir.find(g => g[0] === SRC_GIRONE) || D.gir[0])[1]}&inizio_stagione=${START}T00:00:00.000Z&fine_stagione=${END}T00:00:00.000Z&societa_id=null&squadra_id=null`,
-    camp: D.camp, gir: D.gir, cls: D.cls, teams: D.teams, pal: Object.values(D.pal).join(';'), ms: D.ms.join('#')
+    camp: D.camp, gir: D.gir, cls: D.cls, teams: D.teams, pal: Object.values(D.pal).join(';'), ms: D.ms.join('#'), num: D.num
   };
   const nMatches = countMatches(payload);
   const prev = await readPrev();
